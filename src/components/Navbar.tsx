@@ -1,45 +1,49 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { Link } from 'react-router-dom'
-import brandLogo from '../assets/images/brand.png'
+// import brandLogo from '../assets/images/brand-logo.png'
+import brandVertical from '../assets/images/brand-vertical.png'
+// import brandVerticalName from '../assets/images/brand-vertical-name.png'
 
 export default function Navbar() {
   const [isMenuVisible, setIsMenuVisible] = useState(true)
-  const [lastScrollY, setLastScrollY] = useState(0)
+  const lastScrollY = useRef(0)
 
   useEffect(() => {
-    const handleScroll = () => {
-      const currentScrollY = window.scrollY
+    const scrollEl = document.querySelector('.scroll-container')
+    if (!scrollEl) return
 
-      if (currentScrollY > lastScrollY && currentScrollY > 100) {
-        // Scrolling down and past 100px
+    const handleScroll = () => {
+      const currentScrollY = scrollEl.scrollTop
+
+      if (currentScrollY > lastScrollY.current && currentScrollY > 50) {
         setIsMenuVisible(false)
       } else {
-        // Scrolling up
         setIsMenuVisible(true)
       }
 
-      setLastScrollY(currentScrollY)
+      lastScrollY.current = currentScrollY
     }
 
-    window.addEventListener('scroll', handleScroll, { passive: true })
-
-    return () => {
-      window.removeEventListener('scroll', handleScroll)
-    }
-  }, [lastScrollY])
+    scrollEl.addEventListener('scroll', handleScroll, { passive: true })
+    return () => scrollEl.removeEventListener('scroll', handleScroll)
+  }, [])
 
   return (
     <nav
-      className={`fixed top-0 left-0 right-0 z-50 bg-white  shadow-lg transition-transform duration-300 ${
-        isMenuVisible ? 'translate-y-0' : '-translate-y-full'
-      }`}
+      className={`fixed top-0 left-0 right-0 z-50 bg-white  shadow-lg transition-transform duration-300 ${isMenuVisible ? 'translate-y-0' : '-translate-y-full'
+        }`}
     >
+      <div className="bg-wood-500 flex justify-around py-1 text-white">
+        <div>+6390612322132</div>
+        <div>777 Tiptop Ambuklao Rd, Baguio, 2600 Benguet</div>
+        <div>mitch.sample@gmail.com</div>
+      </div>
       <div className="container mx-auto px-8 tablet:px-6 mobile:px-4">
-        <div className="flex items-center flex-col pt-3 pb-3">
+        <div className="flex items-center justify-between pt-3 pb-3">
           <Link to="/" className="flex items-center mb-1">
-            <img src={brandLogo} alt="Brand Logo" className="h-12 mobile:h-10 w-auto" />
+            <img src={brandVertical} alt="Brand Logo" className="h-12 mobile:h-10 w-auto" />
           </Link>
-          <div className="flex space-x-8 tablet:hidden">
+          <div className="flex space-x-8 tablet:hidden font-pt-serif font-bold text-xl">
             <Link to="/" className="text-gray-700 hover:text-wood-500 transition">
               Home
             </Link>

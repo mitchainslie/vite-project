@@ -2,45 +2,40 @@ import heroImage from '../assets/images/MAG01755.jpg'
 
 export default function Landing() {
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="h-screen bg-gray-50 overflow-y-scroll snap-y snap-proximity scroll-smooth scroll-container">
       {/* Hero Section */}
-      <section id="home" className="pt-16 min-h-screen">
-        <div className="container mx-auto px-8 tablet:px-6 mobile:px-4 py-20 tablet:py-16 mobile:py-12">
+      <section 
+        id="home" 
+        className="pt-16 h-screen bg-cover bg-center flex items-center snap-center"
+        style={{ backgroundImage: `url(${heroImage})` }}
+      >
+        <div className="container mx-auto">
           <div className="grid grid-cols-2 tablet:grid-cols-1 gap-12 tablet:gap-8 items-center">
             {/* Text Content */}
-            <div className="order-1 tablet:order-2 text-left tablet:text-center">
-              <h1 className="text-6xl tablet:text-5xl mobile:text-4xl font-bold text-gray-900 mb-6 tablet:mb-4">
+            <div className="order-1 tablet:order-2 text-left tablet:text-center p-5">
+              <h1 className="text-6xl tablet:text-5xl mobile:text-4xl font-bold text-white mb-6 tablet:mb-4">
                 Welcome to Our
-                <span className="text-wood-500 block">Amazing Landing Page</span>
+                <span className="text-white block">Amazing Landing Page</span>
               </h1>
-              <p className="text-xl tablet:text-lg mobile:text-base text-gray-600 mb-8 tablet:mb-6">
+              <p className="text-xl tablet:text-lg mobile:text-base text-white mb-8 tablet:mb-6">
                 Discover the perfect blend of design and functionality with our
                 responsive layout.
               </p>
               <div className="flex flex-row tablet:flex-col gap-4 justify-start tablet:justify-center">
-                <button className="px-8 tablet:px-6 py-3 bg-wood-500 text-white rounded-lg hover:bg-wood-600 transition shadow-lg">
+                <button className="px-8 tablet:px-6 py-3 bg-wood-500 text-white rounded-lg hover:bg-wood-800 transition shadow-lg cursor-pointer">
                   Get Started
                 </button>
-                <button className="px-8 tablet:px-6 py-3 border-2 border-wood-500 text-wood-500 rounded-lg hover:bg-wood-50 transition">
+                <button className="px-8 tablet:px-6 py-3 bg-wood-500 text-white rounded-lg hover:bg-wood-800 transition shadow-lg cursor-pointer">
                   Learn More
                 </button>
               </div>
-            </div>
-
-            {/* Hero Image */}
-            <div className="order-2 tablet:order-1">
-              <img
-                src={heroImage}
-                alt="Hero"
-                className="w-full h-auto rounded-2xl shadow-2xl object-cover max-h-[600px] tablet:max-h-[500px] mobile:max-h-[400px]"
-              />
             </div>
           </div>
         </div>
       </section>
 
       {/* Services Section */}
-      <section className="py-20 bg-white">
+      <section className="py-20 bg-white h-screen snap-center">
         <div className="container mx-auto px-8 tablet:px-6 mobile:px-4">
           <h2 className="text-4xl mobile:text-3xl font-bold text-center mb-12 text-gray-900">
             Our Services

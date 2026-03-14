@@ -1,6 +1,8 @@
+@import url("https://fonts.googleapis.com/css2?family=PT+Serif:ital,wght@0,400;0,700;1,400;1,700&display=swap");
 @import "tailwindcss";
 
 @theme {
+  --font-pt-serif: "PT Serif", serif;
   --color-wood-50: #f9f7f5;
   --color-wood-100: #f0ebe6;
   --color-wood-200: #e0d4c9;
