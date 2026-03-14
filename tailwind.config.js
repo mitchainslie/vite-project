@@ -1,0 +1,75 @@
+/** @type {import('tailwindcss').Config} */
+export default {
+  content: [
+    "./index.html",
+    "./src/**/*.{js,ts,jsx,tsx}",
+  ],
+  theme: {
+    screens: {
+      // Desktop-first breakpoints (max-width)
+      'desktop': {'min': '1280px'},
+      'laptop': {'max': '1279px'},
+      'tablet': {'max': '1023px'},
+      'mobile': {'max': '767px'},
+      'sm-mobile': {'max': '639px'},
+    },
+    extend: {
+      colors: {
+        // Add your custom colors here
+        primary: {
+          50: '#f0f9ff',
+          100: '#e0f2fe',
+          200: '#bae6fd',
+          300: '#7dd3fc',
+          400: '#38bdf8',
+          500: '#0ea5e9',
+          600: '#0284c7',
+          700: '#0369a1',
+          800: '#075985',
+          900: '#0c4a6e',
+          950: '#082f49',
+        },
+        secondary: {
+          50: '#fdf4ff',
+          100: '#fae8ff',
+          200: '#f5d0fe',
+          300: '#f0abfc',
+          400: '#e879f9',
+          500: '#d946ef',
+          600: '#c026d3',
+          700: '#a21caf',
+          800: '#86198f',
+          900: '#701a75',
+          950: '#4a044e',
+        },
+        accent: {
+          50: '#fff7ed',
+          100: '#ffedd5',
+          200: '#fed7aa',
+          300: '#fdba74',
+          400: '#fb923c',
+          500: '#f97316',
+          600: '#ea580c',
+          700: '#c2410c',
+          800: '#9a3412',
+          900: '#7c2d12',
+          950: '#431407',
+        },
+        wood: {
+          50: '#f9f7f5',
+          100: '#f0ebe6',
+          200: '#e0d4c9',
+          300: '#d0bca9',
+          400: '#a8906f',
+          500: '#553C2A',
+          600: '#4d3625',
+          700: '#3f2d1f',
+          800: '#322419',
+          900: '#261c14',
+          950: '#1a130d',
+        },
+      },
+    },
+  },
+  plugins: [],
+}
