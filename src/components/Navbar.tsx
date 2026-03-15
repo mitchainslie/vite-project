@@ -34,9 +34,7 @@ export default function Navbar() {
         }`}
     >
       <div className="bg-wood-500 flex justify-around py-1 text-white">
-        <div>+6390612322132</div>
         <div>777 Tiptop Ambuklao Rd, Baguio, 2600 Benguet</div>
-        <div>mitch.sample@gmail.com</div>
       </div>
       <div className="container mx-auto px-8 tablet:px-6 mobile:px-4">
         <div className="flex items-center justify-between pt-3 pb-3">
