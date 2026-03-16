@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import heroImage from '../assets/images/MAG01755.jpg'
+import aboutImage from '../assets/images/MAG01822.jpg'
 import brandLogo from '../assets/images/brand-logo.png'
 import brandVertical from '../assets/images/brand-vertical.png'
 import brandVerticalName from '../assets/images/brand-vertical-name.png'
@@ -11,6 +12,7 @@ export default function Landing() {
 
   const carouselImages = [
     { src: heroImage, title: 'Hero Image' },
+    { src: aboutImage, title: 'About Image' },
     { src: brandLogo, title: 'Brand Logo' },
     { src: brandVertical, title: 'Brand Vertical' },
     { src: brandVerticalName, title: 'Brand Vertical Name' },
@@ -59,31 +61,32 @@ export default function Landing() {
 
     return () => clearInterval(interval)
   }, [currentSlide, isTransitioning])
+  
   return (
     <div className="h-screen bg-gray-50 overflow-y-scroll snap-y snap-proximity scroll-smooth scroll-container">
       {/* Hero Section */}
-      <section 
-        id="home" 
+      <section
+        id="home"
         className="pt-16 h-screen bg-cover bg-center flex items-center snap-center"
         style={{ backgroundImage: `url(${heroImage})` }}
       >
         <div className="container mx-auto">
-          <div className="grid grid-cols-2 tablet:grid-cols-1 gap-12 tablet:gap-8 items-center">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
             {/* Text Content */}
-            <div className="order-1 tablet:order-2 text-left tablet:text-center p-5">
-              <h1 className="text-6xl tablet:text-5xl mobile:text-4xl font-bold text-white mb-6 tablet:mb-4">
+            <div className="order-2 lg:order-1 text-center lg:text-left p-5">
+              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4 lg:mb-6">
                 Welcome to
                 <span className="text-white block">Cozy Corner Cafe</span>
               </h1>
-              <p className="text-xl tablet:text-lg mobile:text-base text-white mb-8 tablet:mb-6">
+              <p className="text-base md:text-lg lg:text-xl text-white mb-6 lg:mb-8">
                 Where every cup tells a story. Experience artisanal coffee and
                 homemade treats in our warm, welcoming space.
               </p>
-              <div className="flex flex-row tablet:flex-col gap-4 justify-start tablet:justify-center">
-                <button className="px-8 tablet:px-6 py-3 bg-wood-500 text-white rounded-lg hover:bg-wood-800 transition shadow-lg cursor-pointer">
+              <div className="flex flex-col lg:flex-row gap-4 justify-center lg:justify-start">
+                <button className="px-6 lg:px-8 py-3 bg-wood-500 text-white rounded-lg hover:bg-wood-800 transition shadow-lg cursor-pointer">
                   Order Now
                 </button>
-                <button className="px-8 tablet:px-6 py-3 bg-wood-500 text-white rounded-lg hover:bg-wood-800 transition shadow-lg cursor-pointer">
+                <button className="px-6 lg:px-8 py-3 bg-wood-500 text-white rounded-lg hover:bg-wood-800 transition shadow-lg cursor-pointer">
                   Visit Us
                 </button>
               </div>
@@ -94,32 +97,32 @@ export default function Landing() {
 
       {/* About Section - Image Left, Text Right */}
       <section id="about" className="h-screen snap-center bg-white">
-        <div className="grid grid-cols-2 tablet:grid-cols-1 h-full">
+        <div className="grid grid-cols-1 lg:grid-cols-2 h-full">
           {/* Image on Left - Full Height */}
-          <div className="order-1 h-full">
+          <div className="order-1 h-full overflow-hidden">
             <img
-              src={brandVertical}
+              src={aboutImage}
               alt="About our cafe"
               className="w-full h-full object-cover"
             />
           </div>
 
           {/* Text on Right */}
-          <div className="order-2 flex items-center justify-center px-12 tablet:px-8 mobile:px-6 py-20 tablet:py-12">
+          <div className="order-2 flex items-center justify-center px-6 md:px-8 lg:px-12 py-12 lg:py-20">
             <div className="flex items-start gap-8">
               {/* Decorative Border - Full Height */}
               <div className="w-1 bg-wood-500 h-96"></div>
 
               <div className="max-w-xl flex-1">
-                <h2 className="text-4xl mobile:text-3xl font-bold mb-6 text-gray-900">
+                <h2 className="text-3xl md:text-4xl font-bold mb-6 text-gray-900">
                   Our Story
                 </h2>
-                <p className="text-lg mobile:text-base text-gray-700 mb-4 leading-relaxed">
+                <p className="text-base md:text-lg text-gray-700 mb-4 leading-relaxed">
                   Founded in 2020, Cozy Corner Cafe has been serving the community
                   with passion and dedication. We believe in creating more than just
                   great coffee – we create experiences.
                 </p>
-                <p className="text-lg mobile:text-base text-gray-700 mb-6 leading-relaxed">
+                <p className="text-base md:text-lg text-gray-700 mb-6 leading-relaxed">
                   Every bean is carefully selected, every pastry is freshly baked,
                   and every customer is treated like family. Step into our warm
                   atmosphere and discover why we're the neighborhood's favorite spot.
@@ -152,46 +155,46 @@ export default function Landing() {
 
       {/* Quick Links Section - Rounded Cards */}
       <section className="py-20 bg-gray-50 h-screen snap-center flex items-center">
-        <div className="container mx-auto px-8 tablet:px-6 mobile:px-4">
-          <h2 className="text-4xl mobile:text-3xl font-bold text-center mb-12 text-gray-900">
+        <div className="container mx-auto px-4 md:px-6 lg:px-8">
+          <h2 className="text-3xl md:text-4xl font-bold text-center mb-12 text-gray-900">
             What We Offer
           </h2>
-          <div className="grid grid-cols-3 tablet:grid-cols-2 mobile:grid-cols-1 gap-8 tablet:gap-6 max-w-5xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 max-w-5xl mx-auto">
             {/* Menu Card */}
-            <div className="p-8 tablet:p-6 bg-white rounded-2xl hover:shadow-xl transition cursor-pointer group">
-              <div className="w-16 h-16 mobile:w-12 mobile:h-12 bg-wood-500 rounded-full mb-6 flex items-center justify-center group-hover:bg-wood-800 transition">
+            <div className="p-6 lg:p-8 bg-white rounded-2xl hover:shadow-xl transition cursor-pointer group">
+              <div className="w-12 h-12 md:w-16 md:h-16 bg-wood-500 rounded-full mb-6 flex items-center justify-center group-hover:bg-wood-800 transition">
                 <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
                 </svg>
               </div>
-              <h3 className="text-2xl mobile:text-xl font-semibold mb-3 text-gray-900">View Menu</h3>
-              <p className="text-gray-600 text-base mobile:text-sm">
+              <h3 className="text-xl md:text-2xl font-semibold mb-3 text-gray-900">View Menu</h3>
+              <p className="text-gray-600 text-sm md:text-base">
                 Explore our full selection of coffee, teas, pastries, and savory delights.
               </p>
             </div>
 
             {/* Order Online Card */}
-            <div className="p-8 tablet:p-6 bg-white rounded-2xl hover:shadow-xl transition cursor-pointer group">
-              <div className="w-16 h-16 mobile:w-12 mobile:h-12 bg-wood-500 rounded-full mb-6 flex items-center justify-center group-hover:bg-wood-800 transition">
+            <div className="p-6 lg:p-8 bg-white rounded-2xl hover:shadow-xl transition cursor-pointer group">
+              <div className="w-12 h-12 md:w-16 md:h-16 bg-wood-500 rounded-full mb-6 flex items-center justify-center group-hover:bg-wood-800 transition">
                 <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
                 </svg>
               </div>
-              <h3 className="text-2xl mobile:text-xl font-semibold mb-3 text-gray-900">Order Online</h3>
-              <p className="text-gray-600 text-base mobile:text-sm">
+              <h3 className="text-xl md:text-2xl font-semibold mb-3 text-gray-900">Order Online</h3>
+              <p className="text-gray-600 text-sm md:text-base">
                 Skip the line! Order ahead for pickup or delivery right to your door.
               </p>
             </div>
 
             {/* Reserve Table Card */}
-            <div className="p-8 tablet:p-6 bg-white rounded-2xl hover:shadow-xl transition cursor-pointer group tablet:col-span-2 mobile:col-span-1">
-              <div className="w-16 h-16 mobile:w-12 mobile:h-12 bg-wood-500 rounded-full mb-6 flex items-center justify-center group-hover:bg-wood-800 transition">
+            <div className="p-6 lg:p-8 bg-white rounded-2xl hover:shadow-xl transition cursor-pointer group md:col-span-2 lg:col-span-1">
+              <div className="w-12 h-12 md:w-16 md:h-16 bg-wood-500 rounded-full mb-6 flex items-center justify-center group-hover:bg-wood-800 transition">
                 <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                 </svg>
               </div>
-              <h3 className="text-2xl mobile:text-xl font-semibold mb-3 text-gray-900">Reserve a Table</h3>
-              <p className="text-gray-600 text-base mobile:text-sm">
+              <h3 className="text-xl md:text-2xl font-semibold mb-3 text-gray-900">Reserve a Table</h3>
+              <p className="text-gray-600 text-sm md:text-base">
                 Planning a gathering? Book your spot and enjoy our cozy ambiance.
               </p>
             </div>
@@ -201,15 +204,15 @@ export default function Landing() {
 
       {/* Featured Carousel Section */}
       <section id="featured" className="py-20 bg-gray-100 h-screen snap-center flex items-center">
-        <div className="container mx-auto px-8 tablet:px-6 mobile:px-4">
-          <h2 className="text-4xl mobile:text-3xl font-bold text-center mb-12 text-gray-900">
+        <div className="container mx-auto px-4 md:px-6 lg:px-8">
+          <h2 className="text-3xl md:text-4xl font-bold text-center mb-12 text-gray-900">
             Featured Highlights
           </h2>
           <div className="max-w-4xl mx-auto relative">
             {/* Carousel Container */}
             <div className="relative bg-white rounded-xl shadow-2xl overflow-hidden">
               {/* Image Display */}
-              <div className="relative h-96 tablet:h-72 mobile:h-60 overflow-hidden">
+              <div className="relative h-60 md:h-72 lg:h-96 overflow-hidden">
                 <div
                   className={`flex h-full ${isTransitioning ? 'transition-transform duration-500 ease-in-out' : ''}`}
                   style={{ transform: `translateX(-${currentSlide * 100}%)` }}
@@ -302,14 +305,14 @@ export default function Landing() {
 
       {/* Location & Hours Section */}
       <section id="location" className="py-20 bg-white h-screen snap-center flex items-center">
-        <div className="container mx-auto px-8 tablet:px-6 mobile:px-4">
-          <h2 className="text-4xl mobile:text-3xl font-bold text-center mb-12 text-gray-900">
+        <div className="container mx-auto px-4 md:px-6 lg:px-8">
+          <h2 className="text-3xl md:text-4xl font-bold text-center mb-12 text-gray-900">
             Visit Us
           </h2>
-          <div className="grid grid-cols-2 tablet:grid-cols-1 gap-12 tablet:gap-8 max-w-5xl mx-auto">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 max-w-5xl mx-auto">
             {/* Map */}
             <div className="order-1">
-              <div className="w-full h-96 tablet:h-80 mobile:h-64 bg-gray-200 rounded-xl overflow-hidden shadow-lg">
+              <div className="w-full h-64 md:h-80 lg:h-96 bg-gray-200 rounded-xl overflow-hidden shadow-lg">
                 <iframe
                   src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3153.0977203346677!2d-122.41941548468208!3d37.77492977975903!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8085809c6c8f4459%3A0xb10ed6d9b5050fa5!2sTwitter%20HQ!5e0!3m2!1sen!2sus!4v1234567890123!5m2!1sen!2sus"
                   width="100%"
@@ -368,13 +371,13 @@ export default function Landing() {
 
       {/* Contact Section */}
       <section id="contact" className="py-20 bg-gray-50 h-screen snap-center flex items-center">
-        <div className="container mx-auto px-8 tablet:px-6 mobile:px-4">
-          <h2 className="text-4xl mobile:text-3xl font-bold text-center mb-12 text-gray-900">
+        <div className="container mx-auto px-4 md:px-6 lg:px-8">
+          <h2 className="text-3xl md:text-4xl font-bold text-center mb-12 text-gray-900">
             Get In Touch
           </h2>
           <div className="max-w-2xl mx-auto">
             <form className="space-y-6">
-              <div className="grid grid-cols-2 mobile:grid-cols-1 gap-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
                   <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2">
                     Name
@@ -418,7 +421,7 @@ export default function Landing() {
             </form>
 
             {/* Contact Info */}
-            <div className="mt-12 grid grid-cols-3 mobile:grid-cols-1 gap-6 text-center">
+            <div className="mt-12 grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
               <div>
                 <svg className="w-8 h-8 text-wood-500 mx-auto mb-2" fill="currentColor" viewBox="0 0 20 20">
                   <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z" />
@@ -445,7 +448,7 @@ export default function Landing() {
 
       {/* Footer */}
       <footer className="py-8 bg-wood-900 text-white">
-        <div className="container mx-auto px-8 tablet:px-6 mobile:px-4">
+        <div className="container mx-auto px-4 md:px-6 lg:px-8">
           <div className="flex flex-col items-center space-y-4">
             <div className="flex gap-6">
               <a href="#home" className="hover:text-wood-300 transition">Home</a>
@@ -454,7 +457,7 @@ export default function Landing() {
               <a href="#location" className="hover:text-wood-300 transition">Location</a>
               <a href="#contact" className="hover:text-wood-300 transition">Contact</a>
             </div>
-            <p className="text-base mobile:text-sm">&copy; 2026 Cozy Corner Cafe. All rights reserved.</p>
+            <p className="text-sm md:text-base">&copy; 2026 Cozy Corner Cafe. All rights reserved.</p>
           </div>
         </div>
       </footer>
