@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import heroImage from '../assets/images/MAG01755.jpg'
+import heroImage from '../assets/images/MAG01756.jpg'
 import aboutImage from '../assets/images/MAG01822.jpg'
 import brandLogo from '../assets/images/brand-logo.png'
 import brandVertical from '../assets/images/brand-vertical.png'

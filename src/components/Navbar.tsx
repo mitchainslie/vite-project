@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 // import brandLogo from '../assets/images/brand-logo.png'
 import brandVertical from '../assets/images/brand-vertical.png'
 // import brandVerticalName from '../assets/images/brand-vertical-name.png'
@@ -8,8 +8,18 @@ export default function Navbar() {
   const [isMenuVisible, setIsMenuVisible] = useState(true)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const lastScrollY = useRef(0)
+  const location = useLocation()
+
+  // Close mobile menu when route changes
+  useEffect(() => {
+    setIsMobileMenuOpen(false)
+  }, [location])
 
   useEffect(() => {
+    // Reset scroll position and visibility when route changes
+    setIsMenuVisible(true)
+    lastScrollY.current = 0
+
     const scrollEl = document.querySelector('.scroll-container')
     if (!scrollEl) return
 
@@ -27,7 +37,7 @@ export default function Navbar() {
 
     scrollEl.addEventListener('scroll', handleScroll, { passive: true })
     return () => scrollEl.removeEventListener('scroll', handleScroll)
-  }, [])
+  }, [location])
 
   return (
     <nav
