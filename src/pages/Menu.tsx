@@ -17,11 +17,11 @@ export default function Menu() {
         { name: 'Calamares', description: 'Breaded fried squid served with homemade dip', price: '₱265' },
         { name: 'Crispy Adobo Flakes', description: 'Deep fried shredded pork adobo', price: '₱250' },
         { name: 'Chicharon Bulaklak', description: 'Crispy pork ruffles seasoned and served golden brown', price: '₱265' },
-        { name: 'Spicy Fish', description: 'Deep fried fish fillet with sweet and spicy sauce', price: '₱210' },
         { name: 'Spicy Sambal', description: 'Stir-fried squid with spicy sambal sauce', price: '₱265' },
-        { name: 'Camote Fries', description: 'Freshly sliced sweet potato fries', price: '₱180' },
-        { name: 'French Fries', description: 'Deep-fried potato strips', price: '₱180' },
+        { name: 'Spicy Fish', description: 'Deep fried fish fillet with sweet and spicy sauce', price: '₱210' },
         { name: 'Cheese Burger', description: '1/3 pounder ground beef with honey mustard sauce and french fries', price: '₱285' },
+        { name: 'French Fries', description: 'Deep-fried potato strips', price: '₱180' },
+        { name: 'Camote Fries', description: 'Freshly sliced sweet potato fries', price: '₱180' },
       ],
     },
     {
@@ -42,18 +42,18 @@ export default function Menu() {
         { name: "Arca's Spicy Tuna", description: "Spaghetti pasta with spicy tuna that's topped with cheddar cheese and served with garlic bread", price: '₱235' },
         { name: 'Basil Pesto Tuna', description: 'Spaghetti pasta with tuna, tomatoes, capers, olives, and basil pesto, served with garlic bread', price: '₱255' },
         { name: 'Chicken Alfredo', description: 'Cream based linguine pasta with chicken and broccoli, served with garlic bread', price: '₱250' },
-        { name: 'Seafood Marinara', description: 'Tomato based spaghetti pasta with squid, shrimps, and mussels, served with garlic bread', price: '₱295' },
         { name: 'Puttanesca', description: 'Italian spaghetti pasta with fresh tomato, capers, and black and green olives, served with garlic bread', price: '₱230' },
+        { name: 'Seafood Marinara', description: 'Tomato based spaghetti pasta with squid, shrimps, and mussels, served with garlic bread', price: '₱295' },
         { name: 'Filipino Style Spaghetti', description: 'A filipino favorite pasta with ground beef in sweet tomato sauce, served with garlic bread', price: '₱240' },
       ],
     },
     {
       category: 'Pizza',
       items: [
-        { name: '4 Cheese Pizza', description: 'Ricotta, Cheddar, Parmesan and Mozzarella', price: '₱315 (10") / ₱525 (12")' },
         { name: 'Pepperoni Pizza', description: 'Cheese pizza with slices of pepperoni sausage', price: '₱315 (10") / ₱525 (12")' },
-        { name: 'Classic Hawaiian', description: 'Cheese pizza topped with ham and pineapple', price: '₱315 (10") / ₱525 (12")' },
+        { name: '4 Cheese Pizza', description: 'Ricotta, Cheddar, Parmesan and Mozzarella', price: '₱315 (10") / ₱525 (12")' },
         { name: 'Cheesy Hawaiian', description: 'Ricotta, Cheddar, Parmesan, Mozzarella, ham, and pineapple', price: '₱315 (10") / ₱525 (12")' },
+        { name: 'Classic Hawaiian', description: 'Cheese pizza topped with ham and pineapple', price: '₱315 (10") / ₱525 (12")' },
         { name: 'Vegetarian Delight', description: 'Cheese pizza topped with onions, bell peppers, mushrooms, pineapple, and black olives', price: '₱315 (10") / ₱525 (12")' },
       ],
     },
@@ -62,14 +62,14 @@ export default function Menu() {
       items: [
         { name: 'Fried Ambuklao Tilapia', description: "Deep-fried St. Peter's fish served with rice", price: '₱220' },
         { name: 'Buttered Tiger Prawns', description: 'Pan-seared tiger prawns in butter and garlic served with rice (Seasonal)', price: '₱480' },
-        { name: 'Honey Glazed Salmon', description: 'Salmon glazed in orange, herbs, and wild honey, with rice', price: '₱455' },
-        { name: 'Daing na Bangus', description: 'Pan-fried seasoned boneless bangus (Good for 1-2 persons)', price: '₱295' },
         { name: 'Brazilian Salmon Stew', description: 'Salmon sautéed in spices and coconut milk, with rice', price: '₱465' },
-        { name: "Arca's Bangus Ala Pobre", description: 'Pan-fried boneless Bangus seasoned and glazed in sauce (Good for 1-2 persons)', price: '₱295' },
+        { name: 'Honey Glazed Salmon', description: 'Salmon glazed in orange, herbs, and wild honey, with rice', price: '₱455' },
         { name: 'Salmon Teppanyaki', description: 'Pan-fried pink salmon steak drizzled with unagi sauce served with miso soup and rice', price: '₱485' },
         { name: 'Ebi Tempura', description: 'Deep fried shrimp in tempura batter with tempura sauce (Good for 1-2 persons)', price: '₱395' },
         { name: 'Kani Tempura', description: 'Deep fried crab sticks in tempura batter with tempura sauce (Good for 1-2 persons)', price: '₱285' },
         { name: 'Dinengdeng', description: "An Ilocano stew with vegetables, shrimps, and fish sauce that's topped with fried St. Peter's fish or tilapia (Good for 1-2 persons)", price: '₱310' },
+        { name: 'Daing na Bangus', description: 'Pan-fried seasoned boneless bangus (Good for 1-2 persons)', price: '₱295' },
+        { name: "Arca's Bangus Ala Pobre", description: 'Pan-fried boneless Bangus seasoned and glazed in sauce (Good for 1-2 persons)', price: '₱295' },
       ],
     },
     {
@@ -85,11 +85,11 @@ export default function Menu() {
         { name: 'Fried Chicken', description: 'Golden fried crispy chicken paired with savory gravy, served with rice', price: '₱285' },
         { name: 'Creamy Grilled Chicken', description: 'Chicken cooked in white wine, peppers, and cream, served with rice', price: '₱290' },
         { name: 'Beef Patty', description: 'Ground beef patty with spices, gravy, and served with rice', price: '₱235' },
+        { name: 'Beef Teriyaki', description: 'Sauteed beef glazed in teriyaki sauce and served with rice', price: '₱310' },
         { name: 'Texas Pork Ribs', description: 'Pork ribs with homemade Texas sauce and served with rice', price: '₱395' },
         { name: 'Texas Beef Ribs', description: 'Beef ribs with homemade Texas sauce and served with rice', price: '₱415' },
-        { name: 'Rib-Eye Steak', description: 'Pan-seared, spice-marinated rib-eye served with rice or mashed potato (Priced per gram, please ask our staff for available cuts)', price: 'Market Price' },
-        { name: 'Lamb Shoulder', description: 'Pan-seared, spice-marinated lamb with mint jelly and rice or mash potato (Priced per gram, please ask our staff for available cuts)', price: 'Market Price' },
-        { name: 'Beef Teriyaki', description: 'Sauteed beef glazed in teriyaki sauce and served with rice', price: '₱310' },
+        { name: 'Lamb Shoulder', description: 'Pan-seared, spice-marinated lamb with mint jelly and rice or mash potato (Priced per gram, please ask our staff for available cuts)', price: 'Per Gram' },
+        { name: 'Rib-Eye Steak', description: 'Pan-seared, spice-marinated rib-eye served with rice or mashed potato (Priced per gram, please ask our staff for available cuts)', price: 'Per Gram' },
       ],
     },
     {
@@ -97,11 +97,11 @@ export default function Menu() {
       items: [
         { name: 'Bulalo', description: 'Beef shank and bone marrow soup with vegetable and sweet corn (Good for 3-4 persons)', price: '₱495' },
         { name: 'Pork Humba', description: 'Spiced braised pork with salted black beans and fried sweet potato (Good for 2-3 persons)', price: '₱430' },
+        { name: 'Stir-Fried Vegetables', description: 'Mixed seasonal vegetables with squid and mushroom (Good for 3-4 persons)', price: '₱310' },
+        { name: 'Sinigang Na Salmon', description: 'A Filipino tangy stew with salmon head and belly (Good for 3-4 Persons)', price: '₱490' },
         { name: 'Patatim (sliced)', description: 'A Filipino-Chinese braised pork leg dish with steamed bok choy (Good for 2-3 persons)', price: '₱435' },
         { name: 'Patatim (whole)', description: 'A Filipino-Chinese braised pork leg dish with steamed bok choy (Good for 5-6 persons)', price: '₱995' },
         { name: 'Crispy Pata', description: 'Savory Filipino dish of deep-fried pork knuckles', price: '₱970' },
-        { name: 'Stir-Fried Vegetables', description: 'Mixed seasonal vegetables with squid and mushroom (Good for 3-4 persons)', price: '₱310' },
-        { name: 'Sinigang Na Salmon', description: 'A Filipino tangy stew with salmon head and belly (Good for 3-4 Persons)', price: '₱490' },
         { name: 'Pancit Guisado', description: 'With chicken, shrimp, squid balls, vegetables, and mushrooms (Good for 5-6 persons)', price: '₱365' },
       ],
     },
@@ -132,40 +132,40 @@ export default function Menu() {
     {
       category: 'Coffee',
       items: [
+        { name: 'Benguet Coffee', description: 'Available hot or iced', price: '₱90' },
         { name: 'Espresso (Double)', description: 'Available hot or iced', price: '₱120' },
         { name: 'Americano', description: 'Available hot or iced', price: '₱105' },
         { name: 'Cappuccino', description: 'Available hot or iced', price: '₱120' },
         { name: 'Latte', description: 'Available hot or iced', price: '₱125' },
-        { name: 'Benguet Coffee', description: 'Available hot or iced', price: '₱90' },
       ],
     },
     {
       category: 'Non-Coffee & Tea',
       items: [
         { name: 'Cacao Hot Chocolate', description: '', price: '₱95' },
-        { name: 'Soda Float', description: '', price: '₱120' },
         { name: 'Bottled Water', description: '', price: '₱35' },
+        { name: 'Soda Float', description: '', price: '₱120' },
+        { name: "Arca's Cloud Tea", description: '', price: '₱85' },
         { name: 'Tarragon', description: '', price: '₱85' },
         { name: 'Lemongrass', description: '', price: '₱85' },
         { name: 'Lemongrass Teapot', description: '', price: '₱150' },
         { name: 'Iced Tea', description: '', price: '₱80' },
-        { name: "Arca's Cloud Tea", description: '', price: '₱85' },
         { name: 'Iced Tea Pitcher', description: '', price: '₱210' },
       ],
     },
     {
       category: 'Smoothies & Milkshakes',
       items: [
+        { name: 'Strawberry Milkshake', description: '', price: '₱150' },
+        { name: 'Chocolate Milkshake', description: '', price: '₱150' },
+        { name: 'Vanilla Milkshake', description: '', price: '₱150' },
+        { name: 'Vanilla Oreo Milkshake', description: '', price: '₱155' },
         { name: 'Mango Smoothie', description: '', price: '₱145' },
         { name: 'Strawberry Smoothie', description: '', price: '₱145' },
         { name: 'Avocado Smoothie', description: 'Seasonal', price: '₱135' },
         { name: 'Banana Smoothie', description: '', price: '₱120' },
         { name: 'Pineapple Smoothie', description: 'Seasonal', price: '₱120' },
         { name: 'Cucumber Smoothie', description: '', price: '₱115' },
-        { name: 'Strawberry Milkshake', description: '', price: '₱150' },
-        { name: 'Chocolate Milkshake', description: '', price: '₱150' },
-        { name: 'Vanilla Milkshake', description: '', price: '₱150' },
-        { name: 'Vanilla Oreo Milkshake', description: '', price: '₱155' },
       ],
     },
     {
@@ -173,8 +173,8 @@ export default function Menu() {
       items: [
         { name: 'Sprite', description: '', price: '₱70' },
         { name: 'Royal', description: '', price: '₱70' },
-        { name: 'Coke (Regular/Zero)', description: '', price: '₱70' },
         { name: 'Root Beer', description: '', price: '₱70' },
+        { name: 'Coke (Regular/Zero)', description: '', price: '₱70' },
       ],
     },
   ]
@@ -225,21 +225,6 @@ export default function Menu() {
               </div>
             </div>
           ))}
-        </div>
-      </section>
-
-      {/* Call to Action */}
-      <section className="py-10 sm:py-12 md:py-16 lg:py-20 bg-wood-900 text-white">
-        <div className="container mx-auto px-4 sm:px-6 md:px-8 text-center">
-          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4 sm:mb-6">
-            Ready to Order?
-          </h2>
-          <p className="text-sm sm:text-base md:text-lg lg:text-xl mb-6 sm:mb-8 max-w-2xl mx-auto px-2">
-            Visit us today or make a reservation to experience our delicious menu
-          </p>
-          <button className="px-6 py-2.5 sm:px-8 sm:py-3 bg-white text-wood-900 rounded-lg hover:bg-gray-100 transition shadow-lg text-sm sm:text-base md:text-lg font-semibold w-full max-w-xs sm:w-auto">
-            Make a Reservation
-          </button>
         </div>
       </section>
 
