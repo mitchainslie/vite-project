@@ -182,7 +182,7 @@ export default function Menu() {
   return (
     <div className="h-screen bg-gray-50 overflow-y-scroll scroll-smooth scroll-container">
       {/* Menu Header */}
-      <section className="pt-12 md:pt-16 bg-wood-500 text-white">
+      <section className="pt-24 md:pt-16 bg-wood-500 text-white">
         <div className="container mx-auto px-4 sm:px-6 md:px-8 py-8 sm:py-12 md:py-16 lg:py-20 text-center">
           <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-3 sm:mb-4 md:mb-6">
             Arca's Yard Menu
