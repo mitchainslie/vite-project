@@ -1,445 +1,379 @@
-import { useState, useEffect } from 'react'
-import heroImage from '../assets/images/MAG01756.jpg'
+import { useState, useEffect, useCallback } from 'react'
+import heroVideo from '../assets/videos/landing.mp4'
 import aboutImage from '../assets/images/MAG01822.jpg'
-import brandLogo from '../assets/images/brand-logo.png'
+import galleryImage1 from '../assets/images/MAG01755.jpg'
 import brandVertical from '../assets/images/brand-vertical.png'
 import brandVerticalName from '../assets/images/brand-vertical-name.png'
-import brand from '../assets/images/brand.png'
+import { useScrollAnimation } from '../hooks/useScrollAnimation'
+
+const carouselImages = [aboutImage, galleryImage1, brandVertical, brandVerticalName]
 
 export default function Landing() {
-  const [currentSlide, setCurrentSlide] = useState(1)
-  const [isTransitioning, setIsTransitioning] = useState(true)
+  const story = useScrollAnimation()
+  const featured = useScrollAnimation()
+  const contact = useScrollAnimation()
+  const location = useScrollAnimation()
 
-  const carouselImages = [
-    { src: heroImage, title: 'Hero Image' },
-    { src: aboutImage, title: 'About Image' },
-    { src: brandLogo, title: 'Brand Logo' },
-    { src: brandVertical, title: 'Brand Vertical' },
-    { src: brandVerticalName, title: 'Brand Vertical Name' },
-    { src: brand, title: 'Brand' }
-  ]
+  const [currentSlide, setCurrentSlide] = useState(0)
 
-  // Create extended array with clones for infinite effect
-  const extendedImages = [
-    carouselImages[carouselImages.length - 1], // Clone of last image
-    ...carouselImages,
-    carouselImages[0] // Clone of first image
-  ]
-
-  const nextSlide = () => {
-    if (!isTransitioning) return
-    setCurrentSlide((prev) => prev + 1)
-  }
-
-  const prevSlide = () => {
-    if (!isTransitioning) return
-    setCurrentSlide((prev) => prev - 1)
-  }
-
-  const handleTransitionEnd = () => {
-    if (currentSlide === 0) {
-      setIsTransitioning(false)
-      setCurrentSlide(carouselImages.length)
-    } else if (currentSlide === extendedImages.length - 1) {
-      setIsTransitioning(false)
-      setCurrentSlide(1)
-    }
-  }
+  const nextSlide = useCallback(() => {
+    setCurrentSlide((prev) => (prev + 1) % carouselImages.length)
+  }, [])
 
   useEffect(() => {
-    if (!isTransitioning) {
-      setTimeout(() => {
-        setIsTransitioning(true)
-      }, 50)
-    }
-  }, [isTransitioning])
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      nextSlide()
-    }, 3000) // Auto-scroll every 3 seconds
-
+    const interval = setInterval(nextSlide, 4000)
     return () => clearInterval(interval)
-  }, [currentSlide, isTransitioning])
-  
+  }, [nextSlide])
+
   return (
-    <div className="h-screen bg-gray-50 overflow-y-scroll snap-y snap-proximity scroll-smooth scroll-container">
+    <div className="min-h-screen bg-white">
       {/* Hero Section */}
       <section
         id="home"
-        className="pt-16 h-screen bg-cover bg-center flex items-center snap-center"
-        style={{ backgroundImage: `url(${heroImage})` }}
+        className="relative pt-16 h-screen flex items-center overflow-hidden"
       >
-        <div className="container mx-auto">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
-            {/* Text Content */}
-            <div className="order-2 lg:order-1 text-center lg:text-left p-5">
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4 lg:mb-6">
-                Welcome to
-                <span className="text-white block">Cozy Corner Cafe</span>
-              </h1>
-              <p className="text-base md:text-lg lg:text-xl text-white mb-6 lg:mb-8">
-                Where every cup tells a story. Experience artisanal coffee and
-                homemade treats in our warm, welcoming space.
+        <video
+          autoPlay
+          loop
+          muted
+          playsInline
+          className="absolute inset-0 w-full h-full object-cover"
+        >
+          <source src={heroVideo} type="video/mp4" />
+        </video>
+        <div className="absolute inset-0 bg-black/50" />
+
+        <div className="relative z-10 container mx-auto flex items-center justify-center h-full">
+          <div className="text-center px-5 max-w-2xl animate-[fadeInUp_1s_ease-out]">
+            <p className="text-sm md:text-base uppercase tracking-[0.3em] text-wood-300 mb-4 font-medium">
+              Baguio City
+            </p>
+            <h1 className="text-4xl md:text-5xl lg:text-7xl font-bold text-white mb-2 lg:mb-4 leading-tight">
+              Welcome to
+            </h1>
+            <h1 className="text-4xl md:text-5xl lg:text-7xl font-bold text-wood-300 mb-6 leading-tight">
+              Arca's Yard
+            </h1>
+            <div className="w-20 h-1 bg-wood-400 mb-6 mx-auto rounded-full" />
+            <p className="text-base md:text-lg lg:text-xl text-white/80 mb-10 leading-relaxed max-w-lg mx-auto">
+              Nestled along Tiptop Ambuklao Road, enjoy outdoor seating and
+              private dining surrounded by the cool Baguio breeze.
+            </p>
+            <a href="/menu" className="inline-block px-10 py-3.5 bg-wood-500 text-white rounded-lg hover:bg-wood-600 transition-all duration-300 shadow-lg hover:shadow-xl cursor-pointer font-medium tracking-wide">
+              View Menu
+            </a>
+          </div>
+
+          <a href="#story" className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-white/60 hover:text-white transition-colors cursor-pointer">
+            <span className="text-xs uppercase tracking-[0.2em]">Scroll</span>
+            <svg className="w-5 h-5 animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+            </svg>
+          </a>
+        </div>
+      </section>
+
+      {/* Story Section - Image Left, Text Right */}
+      <section id="story" className="py-12 md:py-16 lg:py-24 bg-white overflow-hidden">
+        <div className="flex items-center justify-center gap-4 mb-10 md:mb-14">
+          <span className="h-px w-16 md:w-28 bg-gradient-to-r from-transparent to-wood-300/50" />
+          <span className="text-xs md:text-sm tracking-[0.3em] text-wood-400/70 font-light">01</span>
+          <span className="h-px w-16 md:w-28 bg-gradient-to-l from-transparent to-wood-300/50" />
+        </div>
+        <div ref={story.ref} className="max-w-6xl mx-auto px-5 md:px-12 lg:px-16">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-20 items-center">
+            {/* Image with number */}
+            <div
+              className={`relative mx-4 md:mx-0 transition-all duration-700 ease-out ${
+                story.isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'
+              }`}
+            >
+              <div className="absolute -bottom-3 -right-3 md:-bottom-4 md:-right-4 w-full h-full border-2 border-wood-300 rounded-2xl" style={{ zIndex: 0 }} />
+              <img
+                src={aboutImage}
+                alt="About Arca's Yard"
+                className="relative w-full h-[280px] md:h-[400px] lg:h-[520px] object-cover rounded-2xl shadow-2xl bg-wood-50"
+                style={{ zIndex: 1 }}
+              />
+            </div>
+
+            {/* Text */}
+            <div
+              className={`transition-all duration-700 delay-150 ease-out ${
+                story.isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'
+              }`}
+            >
+              <p className="text-sm uppercase tracking-[0.25em] text-wood-400 mb-3 font-medium">About Us</p>
+              <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6 text-gray-900 leading-tight">
+                Our Story
+              </h2>
+              <div className="w-16 h-1 bg-wood-400 mb-8 rounded-full" />
+              <p className="text-base md:text-lg text-gray-600 mb-5 leading-relaxed">
+                Arca's Yard is a cozy retreat tucked away along Tiptop Ambuklao
+                Road in Baguio City. We offer outdoor seating and a private dining
+                room — the perfect escape from the everyday hustle.
               </p>
-              <div className="flex flex-col lg:flex-row gap-4 justify-center lg:justify-start">
-                <button className="px-6 lg:px-8 py-3 bg-wood-500 text-white rounded-lg hover:bg-wood-800 transition shadow-lg cursor-pointer">
-                  Order Now
-                </button>
-                <button className="px-6 lg:px-8 py-3 bg-wood-500 text-white rounded-lg hover:bg-wood-800 transition shadow-lg cursor-pointer">
-                  Visit Us
-                </button>
-              </div>
+              <p className="text-base md:text-lg text-gray-600 mb-8 leading-relaxed">
+                Every dish and drink is crafted with care, using locally sourced
+                ingredients and served in an atmosphere that feels like home.
+              </p>
+              <ul className="space-y-4">
+                <li className="flex items-center text-gray-700">
+                  <span className="w-2 h-2 bg-wood-400 rounded-full mr-4 flex-shrink-0" />
+                  Outdoor seating with mountain views
+                </li>
+                <li className="flex items-center text-gray-700">
+                  <span className="w-2 h-2 bg-wood-400 rounded-full mr-4 flex-shrink-0" />
+                  Private dining room available
+                </li>
+                <li className="flex items-center text-gray-700">
+                  <span className="w-2 h-2 bg-wood-400 rounded-full mr-4 flex-shrink-0" />
+                  Locally sourced ingredients
+                </li>
+              </ul>
             </div>
           </div>
         </div>
       </section>
 
-      {/* About Section - Image Left, Text Right */}
-      <section id="about" className="h-screen snap-center bg-white">
-        <div className="grid grid-cols-1 lg:grid-cols-2 h-full">
-          {/* Image on Left - Full Height */}
-          <div className="order-1 h-full overflow-hidden">
-            <img
-              src={aboutImage}
-              alt="About our cafe"
-              className="w-full h-full object-cover"
-            />
-          </div>
-
-          {/* Text on Right */}
-          <div className="order-2 flex items-center justify-center px-6 md:px-8 lg:px-12 py-12 lg:py-20">
-            <div className="flex items-start gap-8">
-              {/* Decorative Border - Full Height */}
-              <div className="w-1 bg-wood-500 h-96"></div>
-
-              <div className="max-w-xl flex-1">
-                <h2 className="text-3xl md:text-4xl font-bold mb-6 text-gray-900">
-                  Our Story
-                </h2>
-                <p className="text-base md:text-lg text-gray-700 mb-4 leading-relaxed">
-                  Founded in 2020, Cozy Corner Cafe has been serving the community
-                  with passion and dedication. We believe in creating more than just
-                  great coffee – we create experiences.
-                </p>
-                <p className="text-base md:text-lg text-gray-700 mb-6 leading-relaxed">
-                  Every bean is carefully selected, every pastry is freshly baked,
-                  and every customer is treated like family. Step into our warm
-                  atmosphere and discover why we're the neighborhood's favorite spot.
-                </p>
-                <ul className="space-y-3">
-                  <li className="flex items-center text-gray-700">
-                    <svg className="w-6 h-6 text-wood-500 mr-3" fill="currentColor" viewBox="0 0 20 20">
-                      <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-                    </svg>
-                    Locally sourced ingredients
-                  </li>
-                  <li className="flex items-center text-gray-700">
-                    <svg className="w-6 h-6 text-wood-500 mr-3" fill="currentColor" viewBox="0 0 20 20">
-                      <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-                    </svg>
-                    Artisan roasted coffee
-                  </li>
-                  <li className="flex items-center text-gray-700">
-                    <svg className="w-6 h-6 text-wood-500 mr-3" fill="currentColor" viewBox="0 0 20 20">
-                      <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-                    </svg>
-                    Homemade daily specials
-                  </li>
-                </ul>
-              </div>
-            </div>
-          </div>
+      {/* Featured Photos - Text Left, Image Right */}
+      <section id="featured" className="py-12 md:py-16 lg:py-24 bg-gray-50 overflow-hidden">
+        <div className="flex items-center justify-center gap-4 mb-10 md:mb-14">
+          <span className="h-px w-16 md:w-28 bg-gradient-to-r from-transparent to-wood-300/50" />
+          <span className="text-xs md:text-sm tracking-[0.3em] text-wood-400/70 font-light">02</span>
+          <span className="h-px w-16 md:w-28 bg-gradient-to-l from-transparent to-wood-300/50" />
         </div>
-      </section>
-
-      {/* Quick Links Section - Rounded Cards */}
-      <section className="py-20 bg-gray-50 h-screen snap-center flex items-center">
-        <div className="container mx-auto px-4 md:px-6 lg:px-8">
-          <h2 className="text-3xl md:text-4xl font-bold text-center mb-12 text-gray-900">
-            What We Offer
-          </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 max-w-5xl mx-auto">
-            {/* Menu Card */}
-            <div className="p-6 lg:p-8 bg-white rounded-2xl hover:shadow-xl transition cursor-pointer group">
-              <div className="w-12 h-12 md:w-16 md:h-16 bg-wood-500 rounded-full mb-6 flex items-center justify-center group-hover:bg-wood-800 transition">
-                <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
-                </svg>
-              </div>
-              <h3 className="text-xl md:text-2xl font-semibold mb-3 text-gray-900">View Menu</h3>
-              <p className="text-gray-600 text-sm md:text-base">
-                Explore our full selection of coffee, teas, pastries, and savory delights.
+        <div ref={featured.ref} className="max-w-6xl mx-auto px-5 md:px-12 lg:px-16">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-20 items-center">
+            {/* Text */}
+            <div
+              className={`order-2 lg:order-1 transition-all duration-700 ease-out ${
+                featured.isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'
+              }`}
+            >
+              <p className="text-sm uppercase tracking-[0.25em] text-wood-400 mb-3 font-medium">Gallery</p>
+              <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6 text-gray-900 leading-tight">
+                Featured Photos
+              </h2>
+              <div className="w-16 h-1 bg-wood-400 mb-8 rounded-full" />
+              <p className="text-base md:text-lg text-gray-600 mb-5 leading-relaxed">
+                From golden-hour portraits on our terrace to candid moments over
+                freshly brewed coffee — every corner of Arca's Yard is worth capturing.
+              </p>
+              <p className="text-base md:text-lg text-gray-600 mb-8 leading-relaxed">
+                Our space blends rustic charm with the natural beauty of Baguio,
+                making it a favorite spot for creatives and food lovers alike.
               </p>
             </div>
 
-            {/* Order Online Card */}
-            <div className="p-6 lg:p-8 bg-white rounded-2xl hover:shadow-xl transition cursor-pointer group">
-              <div className="w-12 h-12 md:w-16 md:h-16 bg-wood-500 rounded-full mb-6 flex items-center justify-center group-hover:bg-wood-800 transition">
-                <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
-                </svg>
-              </div>
-              <h3 className="text-xl md:text-2xl font-semibold mb-3 text-gray-900">Order Online</h3>
-              <p className="text-gray-600 text-sm md:text-base">
-                Skip the line! Order ahead for pickup or delivery right to your door.
-              </p>
-            </div>
-
-            {/* Reserve Table Card */}
-            <div className="p-6 lg:p-8 bg-white rounded-2xl hover:shadow-xl transition cursor-pointer group md:col-span-2 lg:col-span-1">
-              <div className="w-12 h-12 md:w-16 md:h-16 bg-wood-500 rounded-full mb-6 flex items-center justify-center group-hover:bg-wood-800 transition">
-                <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                </svg>
-              </div>
-              <h3 className="text-xl md:text-2xl font-semibold mb-3 text-gray-900">Reserve a Table</h3>
-              <p className="text-gray-600 text-sm md:text-base">
-                Planning a gathering? Book your spot and enjoy our cozy ambiance.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Featured Carousel Section */}
-      <section id="featured" className="py-20 bg-gray-100 h-screen snap-center flex items-center">
-        <div className="container mx-auto px-4 md:px-6 lg:px-8">
-          <h2 className="text-3xl md:text-4xl font-bold text-center mb-12 text-gray-900">
-            Featured Highlights
-          </h2>
-          <div className="max-w-4xl mx-auto relative">
-            {/* Carousel Container */}
-            <div className="relative bg-white rounded-xl shadow-2xl overflow-hidden">
-              {/* Image Display */}
-              <div className="relative h-60 md:h-72 lg:h-96 overflow-hidden">
-                <div
-                  className={`flex h-full ${isTransitioning ? 'transition-transform duration-500 ease-in-out' : ''}`}
-                  style={{ transform: `translateX(-${currentSlide * 100}%)` }}
-                  onTransitionEnd={handleTransitionEnd}
-                >
-                  {extendedImages.map((image, index) => (
-                    <div
-                      key={index}
-                      className="w-full h-full flex-shrink-0 bg-gray-50"
-                    >
-                      <img
-                        src={image.src}
-                        alt={image.title}
-                        className="w-full h-full object-contain"
-                      />
-                    </div>
+            {/* Carousel with number */}
+            <div
+              className={`relative order-1 lg:order-2 mx-4 md:mx-0 transition-all duration-700 delay-150 ease-out ${
+                featured.isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'
+              }`}
+            >
+              <div className="absolute -bottom-3 -left-3 md:-bottom-4 md:-left-4 w-full h-full border-2 border-wood-300 rounded-2xl" style={{ zIndex: 0 }} />
+              <div className="relative w-full h-[280px] md:h-[400px] lg:h-[520px] rounded-2xl shadow-2xl overflow-hidden bg-wood-50" style={{ zIndex: 1 }}>
+                {carouselImages.map((src, i) => (
+                  <img
+                    key={i}
+                    src={src}
+                    alt={`Featured photo ${i + 1}`}
+                    className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ${
+                      i === currentSlide ? 'opacity-100' : 'opacity-0'
+                    }`}
+                  />
+                ))}
+                {/* Slide indicators */}
+                <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2" style={{ zIndex: 3 }}>
+                  {carouselImages.map((_, i) => (
+                    <span
+                      key={i}
+                      className={`w-2 h-2 rounded-full transition-all duration-300 ${
+                        i === currentSlide ? 'bg-white w-6' : 'bg-white/50'
+                      }`}
+                    />
                   ))}
                 </div>
               </div>
-
-              {/* Navigation Buttons */}
-              <button
-                onClick={prevSlide}
-                className="absolute left-4 top-1/2 -translate-y-1/2 bg-white/90 hover:bg-white text-gray-800 rounded-full p-3 shadow-lg transition"
-              >
-                <svg
-                  className="w-6 h-6"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M15 19l-7-7 7-7"
-                  />
-                </svg>
-              </button>
-
-              <button
-                onClick={nextSlide}
-                className="absolute right-4 top-1/2 -translate-y-1/2 bg-white/90 hover:bg-white text-gray-800 rounded-full p-3 shadow-lg transition"
-              >
-                <svg
-                  className="w-6 h-6"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M9 5l7 7-7 7"
-                  />
-                </svg>
-              </button>
-
-              {/* Slide Indicators */}
-              <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2">
-                {carouselImages.map((_, index) => {
-                  const actualIndex = currentSlide === 0 ? carouselImages.length - 1
-                    : currentSlide === extendedImages.length - 1 ? 0
-                    : currentSlide - 1
-
-                  return (
-                    <button
-                      key={index}
-                      onClick={() => {
-                        setIsTransitioning(true)
-                        setCurrentSlide(index + 1)
-                      }}
-                      className={`w-3 h-3 rounded-full transition ${
-                        actualIndex === index ? 'bg-wood-500' : 'bg-gray-300'
-                      }`}
-                    />
-                  )
-                })}
-              </div>
             </div>
-
-            {/* Image Title */}
-            <p className="text-center mt-6 text-xl font-semibold text-gray-700">
-              {extendedImages[currentSlide].title}
-            </p>
           </div>
         </div>
       </section>
 
-      {/* Location & Hours Section */}
-      <section id="location" className="py-20 bg-white h-screen snap-center flex items-center">
-        <div className="container mx-auto px-4 md:px-6 lg:px-8">
-          <h2 className="text-3xl md:text-4xl font-bold text-center mb-12 text-gray-900">
-            Visit Us
-          </h2>
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 max-w-5xl mx-auto">
+      {/* Contact Details - Image Left, Text Right */}
+      <section id="contact" className="py-12 md:py-16 lg:py-24 bg-white overflow-hidden">
+        <div className="flex items-center justify-center gap-4 mb-10 md:mb-14">
+          <span className="h-px w-16 md:w-28 bg-gradient-to-r from-transparent to-wood-300/50" />
+          <span className="text-xs md:text-sm tracking-[0.3em] text-wood-400/70 font-light">03</span>
+          <span className="h-px w-16 md:w-28 bg-gradient-to-l from-transparent to-wood-300/50" />
+        </div>
+        <div ref={contact.ref} className="max-w-6xl mx-auto px-5 md:px-12 lg:px-16">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-20 items-center">
+            {/* Image with number */}
+            <div
+              className={`relative mx-4 md:mx-0 transition-all duration-700 ease-out ${
+                contact.isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'
+              }`}
+            >
+              <div className="absolute -bottom-3 -right-3 md:-bottom-4 md:-right-4 w-full h-full border-2 border-wood-300 rounded-2xl" style={{ zIndex: 0 }} />
+              <img
+                src={brandVerticalName}
+                alt="Get in touch"
+                className="relative w-full h-[280px] md:h-[400px] lg:h-[520px] object-cover rounded-2xl shadow-2xl bg-wood-50"
+                style={{ zIndex: 1 }}
+              />
+            </div>
+
+            {/* Text */}
+            <div
+              className={`transition-all duration-700 delay-150 ease-out ${
+                contact.isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'
+              }`}
+            >
+              <p className="text-sm uppercase tracking-[0.25em] text-wood-400 mb-3 font-medium">Contact</p>
+              <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6 text-gray-900 leading-tight">
+                Get In Touch
+              </h2>
+              <div className="w-16 h-1 bg-wood-400 mb-8 rounded-full" />
+              <p className="text-base md:text-lg text-gray-600 mb-10 leading-relaxed">
+                Have questions or want to make a reservation? Reach out to us through any of the channels below.
+              </p>
+              <div className="space-y-6">
+                {/* Phone */}
+                <a href="tel:09293251868" className="flex items-center gap-4 text-gray-700 hover:text-wood-500 transition-colors group">
+                  <span className="w-12 h-12 flex items-center justify-center rounded-full bg-wood-100 group-hover:bg-wood-200 transition-colors">
+                    <svg className="w-5 h-5 text-wood-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                    </svg>
+                  </span>
+                  <span className="text-lg font-medium">0929 325 1868</span>
+                </a>
+                {/* Facebook */}
+                <a href="https://www.facebook.com/arcasyard/" target="_blank" rel="noopener noreferrer" className="flex items-center gap-4 text-gray-700 hover:text-wood-500 transition-colors group">
+                  <span className="w-12 h-12 flex items-center justify-center rounded-full bg-wood-100 group-hover:bg-wood-200 transition-colors">
+                    <svg className="w-5 h-5 text-wood-500" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
+                    </svg>
+                  </span>
+                  <span className="text-lg font-medium">Arca's Yard Cafe</span>
+                </a>
+                {/* Instagram */}
+                <a href="https://www.instagram.com/arcasyardcafe/" target="_blank" rel="noopener noreferrer" className="flex items-center gap-4 text-gray-700 hover:text-wood-500 transition-colors group">
+                  <span className="w-12 h-12 flex items-center justify-center rounded-full bg-wood-100 group-hover:bg-wood-200 transition-colors">
+                    <svg className="w-5 h-5 text-wood-500" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z" />
+                    </svg>
+                  </span>
+                  <span className="text-lg font-medium">@arcasyardcafe</span>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Location - Text Left, Google Maps Right */}
+      <section id="location" className="py-12 md:py-16 lg:py-24 bg-gray-50 overflow-hidden">
+        <div className="flex items-center justify-center gap-4 mb-10 md:mb-14">
+          <span className="h-px w-16 md:w-28 bg-gradient-to-r from-transparent to-wood-300/50" />
+          <span className="text-xs md:text-sm tracking-[0.3em] text-wood-400/70 font-light">04</span>
+          <span className="h-px w-16 md:w-28 bg-gradient-to-l from-transparent to-wood-300/50" />
+        </div>
+        <div ref={location.ref} className="max-w-6xl mx-auto px-5 md:px-12 lg:px-16">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-20 items-center">
+            {/* Text */}
+            <div
+              className={`order-2 lg:order-1 transition-all duration-700 ease-out ${
+                location.isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'
+              }`}
+            >
+              <p className="text-sm uppercase tracking-[0.25em] text-wood-400 mb-3 font-medium">Find Us</p>
+              <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6 text-gray-900 leading-tight">
+                Check the Location
+              </h2>
+              <div className="w-16 h-1 bg-wood-400 mb-8 rounded-full" />
+              <div className="mb-8">
+                <h3 className="text-xl font-semibold mb-3 text-gray-900">Address</h3>
+                <p className="text-gray-600 leading-relaxed">
+                  777 Tiptop Ambuklao Rd<br />
+                  Baguio, 2600 Benguet
+                </p>
+              </div>
+              <div className="mb-8">
+                <h3 className="text-xl font-semibold mb-3 text-gray-900">Opening Hours</h3>
+                <div className="text-gray-600 space-y-2">
+                  <p className="flex justify-between max-w-xs">
+                    <span className="font-medium">Monday</span>
+                    <span>9 AM — 7 PM</span>
+                  </p>
+                  <p className="flex justify-between max-w-xs">
+                    <span className="font-medium">Tuesday</span>
+                    <span>9 AM — 7 PM</span>
+                  </p>
+                  <p className="flex justify-between max-w-xs text-wood-500">
+                    <span className="font-medium">Wednesday</span>
+                    <span>Closed</span>
+                  </p>
+                  <p className="flex justify-between max-w-xs">
+                    <span className="font-medium">Thursday</span>
+                    <span>9 AM — 7 PM</span>
+                  </p>
+                  <p className="flex justify-between max-w-xs">
+                    <span className="font-medium">Friday</span>
+                    <span>9 AM — 7 PM</span>
+                  </p>
+                  <p className="flex justify-between max-w-xs">
+                    <span className="font-medium">Saturday</span>
+                    <span>9 AM — 8 PM</span>
+                  </p>
+                  <p className="flex justify-between max-w-xs">
+                    <span className="font-medium">Sunday</span>
+                    <span>9 AM — 8 PM</span>
+                  </p>
+                </div>
+              </div>
+              <div>
+                <h3 className="text-xl font-semibold mb-3 text-gray-900">How to Get There</h3>
+                <div className="text-gray-600 space-y-3">
+                  <div className="flex items-start gap-3">
+                    <svg className="w-5 h-5 text-wood-400 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" />
+                    </svg>
+                    <p>
+                      <span className="font-medium text-gray-700">By jeepney:</span> From Jollibee Harrison, take a jeep headed to Tiptop. Get off at the turning point, then walk a few meters until you see the Arca's Yard sign.
+                    </p>
+                  </div>
+                  <div className="flex items-start gap-3">
+                    <svg className="w-5 h-5 text-wood-400 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 10l1.5-5H12m0 0h5.5L19 10M12 5v5m-7 0h14v7a2 2 0 01-2 2H7a2 2 0 01-2-2v-7zm2.5 3.5a1 1 0 100 2 1 1 0 000-2zm9 0a1 1 0 100 2 1 1 0 000-2z" />
+                    </svg>
+                    <p>
+                      <span className="font-medium text-gray-700">By car:</span> Parking is available on-site for customers.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
             {/* Map */}
-            <div className="order-1">
-              <div className="w-full h-64 md:h-80 lg:h-96 bg-gray-200 rounded-xl overflow-hidden shadow-lg">
+            <div
+              className={`relative order-1 lg:order-2 mx-4 md:mx-0 transition-all duration-700 delay-150 ease-out ${
+                location.isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'
+              }`}
+            >
+              <div className="absolute -bottom-3 -left-3 md:-bottom-4 md:-left-4 w-full h-full border-2 border-wood-300 rounded-2xl" style={{ zIndex: 0 }} />
+              <div className="relative w-full h-[280px] md:h-[400px] lg:h-[520px] rounded-2xl shadow-2xl overflow-hidden" style={{ zIndex: 1 }}>
                 <iframe
-                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3153.0977203346677!2d-122.41941548468208!3d37.77492977975903!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8085809c6c8f4459%3A0xb10ed6d9b5050fa5!2sTwitter%20HQ!5e0!3m2!1sen!2sus!4v1234567890123!5m2!1sen!2sus"
+                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3827.123!2d120.6106295!3d16.4300328!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3391a155b16e0f3d%3A0x0!2zMTbCsDI1JzQ4LjEiTiAxMjDCsDM2JzM4LjMiRQ!5e0!3m2!1sen!2sph!4v1700000000000!5m2!1sen!2sph"
                   width="100%"
                   height="100%"
                   style={{ border: 0 }}
                   allowFullScreen
                   loading="lazy"
                   referrerPolicy="no-referrer-when-downgrade"
-                  title="Cafe Location Map"
+                  title="Arca's Yard Location"
                 ></iframe>
-              </div>
-            </div>
-
-            {/* Address & Hours */}
-            <div className="order-2 flex flex-col justify-center">
-              <div className="mb-8">
-                <h3 className="text-2xl font-semibold mb-4 text-gray-900 flex items-center">
-                  <svg className="w-6 h-6 text-wood-500 mr-3" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clipRule="evenodd" />
-                  </svg>
-                  Address
-                </h3>
-                <p className="text-lg text-gray-700 ml-9">
-                  123 Coffee Street<br />
-                  Downtown District<br />
-                  City, State 12345
-                </p>
-              </div>
-
-              <div>
-                <h3 className="text-2xl font-semibold mb-4 text-gray-900 flex items-center">
-                  <svg className="w-6 h-6 text-wood-500 mr-3" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clipRule="evenodd" />
-                  </svg>
-                  Opening Hours
-                </h3>
-                <div className="text-lg text-gray-700 ml-9 space-y-2">
-                  <p className="flex justify-between max-w-xs">
-                    <span className="font-medium">Monday - Friday</span>
-                    <span>7:00 AM - 8:00 PM</span>
-                  </p>
-                  <p className="flex justify-between max-w-xs">
-                    <span className="font-medium">Saturday</span>
-                    <span>8:00 AM - 9:00 PM</span>
-                  </p>
-                  <p className="flex justify-between max-w-xs">
-                    <span className="font-medium">Sunday</span>
-                    <span>8:00 AM - 7:00 PM</span>
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Contact Section */}
-      <section id="contact" className="py-20 bg-gray-50 h-screen snap-center flex items-center">
-        <div className="container mx-auto px-4 md:px-6 lg:px-8">
-          <h2 className="text-3xl md:text-4xl font-bold text-center mb-12 text-gray-900">
-            Get In Touch
-          </h2>
-          <div className="max-w-2xl mx-auto">
-            <form className="space-y-6">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div>
-                  <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2">
-                    Name
-                  </label>
-                  <input
-                    type="text"
-                    id="name"
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-wood-500 focus:border-transparent"
-                    placeholder="Your name"
-                  />
-                </div>
-                <div>
-                  <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
-                    Email
-                  </label>
-                  <input
-                    type="email"
-                    id="email"
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-wood-500 focus:border-transparent"
-                    placeholder="your@email.com"
-                  />
-                </div>
-              </div>
-              <div>
-                <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-2">
-                  Message
-                </label>
-                <textarea
-                  id="message"
-                  rows={6}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-wood-500 focus:border-transparent"
-                  placeholder="Tell us what's on your mind..."
-                ></textarea>
-              </div>
-              <button
-                type="submit"
-                className="w-full px-8 py-4 bg-wood-500 text-white rounded-lg hover:bg-wood-800 transition shadow-lg text-lg font-semibold"
-              >
-                Send Message
-              </button>
-            </form>
-
-            {/* Contact Info */}
-            <div className="mt-12 grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
-              <div>
-                <svg className="w-8 h-8 text-wood-500 mx-auto mb-2" fill="currentColor" viewBox="0 0 20 20">
-                  <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z" />
-                </svg>
-                <p className="text-gray-700 font-medium">(555) 123-4567</p>
-              </div>
-              <div>
-                <svg className="w-8 h-8 text-wood-500 mx-auto mb-2" fill="currentColor" viewBox="0 0 20 20">
-                  <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z" />
-                  <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" />
-                </svg>
-                <p className="text-gray-700 font-medium">hello@cozycorner.com</p>
-              </div>
-              <div>
-                <svg className="w-8 h-8 text-wood-500 mx-auto mb-2" fill="currentColor" viewBox="0 0 20 20">
-                  <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
-                </svg>
-                <p className="text-gray-700 font-medium">@cozycornercafe</p>
               </div>
             </div>
           </div>
@@ -452,12 +386,12 @@ export default function Landing() {
           <div className="flex flex-col items-center space-y-4">
             <div className="flex gap-6">
               <a href="#home" className="hover:text-wood-300 transition">Home</a>
-              <a href="#about" className="hover:text-wood-300 transition">About</a>
+              <a href="#story" className="hover:text-wood-300 transition">Story</a>
               <a href="#featured" className="hover:text-wood-300 transition">Featured</a>
-              <a href="#location" className="hover:text-wood-300 transition">Location</a>
               <a href="#contact" className="hover:text-wood-300 transition">Contact</a>
+              <a href="#location" className="hover:text-wood-300 transition">Location</a>
             </div>
-            <p className="text-sm md:text-base">&copy; 2026 Cozy Corner Cafe. All rights reserved.</p>
+            <p className="text-sm md:text-base">&copy; 2026 Arca's Yard. All rights reserved.</p>
           </div>
         </div>
       </footer>

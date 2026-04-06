@@ -20,11 +20,8 @@ export default function Navbar() {
     setIsMenuVisible(true)
     lastScrollY.current = 0
 
-    const scrollEl = document.querySelector('.scroll-container')
-    if (!scrollEl) return
-
     const handleScroll = () => {
-      const currentScrollY = scrollEl.scrollTop
+      const currentScrollY = window.scrollY
 
       if (currentScrollY > lastScrollY.current && currentScrollY > 50) {
         setIsMenuVisible(false)
@@ -35,13 +32,13 @@ export default function Navbar() {
       lastScrollY.current = currentScrollY
     }
 
-    scrollEl.addEventListener('scroll', handleScroll, { passive: true })
-    return () => scrollEl.removeEventListener('scroll', handleScroll)
+    window.addEventListener('scroll', handleScroll, { passive: true })
+    return () => window.removeEventListener('scroll', handleScroll)
   }, [location])
 
   return (
     <nav
-      className={`fixed top-0 left-0 right-0 z-50 bg-white  shadow-lg transition-transform duration-300 ${isMenuVisible ? 'translate-y-0' : '-translate-y-full'
+      className={`fixed top-0 left-0 right-0 z-50 bg-white shadow-lg transition-transform duration-300 will-change-transform ${isMenuVisible ? 'translate-y-0' : '-translate-y-full'
         }`}
     >
       <div className="bg-wood-500 flex justify-around py-1 text-white text-sm mobile:text-xs mobile:py-0.5">
