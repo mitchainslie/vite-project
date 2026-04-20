@@ -1,6 +1,9 @@
 import img1 from '../assets/images/MAG01755.jpg'
 import img2 from '../assets/images/MAG01756.jpg'
 import img3 from '../assets/images/MAG01822.jpg'
+import lemonOrange from '../assets/images/foods/530760021_17909178132203112_2396788520665581761_n.jpg'
+import orientalSalad from '../assets/images/foods/532258815_17909414256203112_267154880433735556_n.jpg'
+import bistekTagalog from '../assets/images/foods/542931152_17912183907203112_3143007133215368910_n.jpg'
 
 const ph1 = img1, ph2 = img2, ph3 = img3
 
@@ -26,7 +29,7 @@ export const menuItems: MenuSection[] = [
       { name: 'Pumpkin Soup', description: 'Classic soup made from creamy fresh pumpkin', price: '₱110', featured: true, image: ph1, toDisplay: false },
       { name: 'Potato Leek Soup', description: 'Vegetable soup made with fresh potatoes and onion leeks', price: '₱110', featured: false, toDisplay: false },
       { name: 'Cream of Mushroom Soup', description: 'A classic made with fresh button mushrooms and cream', price: '₱125', featured: true, image: ph2, toDisplay: false },
-      { name: 'Oriental Salad', description: "Seasonal fruits on a bed of lettuce with Arca's signature dressing", price: '₱300', featured: false, toDisplay: false },
+      { name: 'Oriental Salad', description: "Seasonal fruits on a bed of lettuce with Arca's signature dressing", price: '₱300', featured: false, image: orientalSalad, toDisplay: true },
       { name: "Arca's Greek Salad", description: 'A medley of olives, arugula, feta cheese with alfalfa sprouts', price: '₱320', featured: true, image: ph3, toDisplay: false },
     ],
   },
@@ -82,7 +85,7 @@ export const menuItems: MenuSection[] = [
       { name: 'Fried Ambuklao Tilapia', description: "Deep-fried St. Peter's fish served with rice", price: '₱220', featured: true, image: ph1, toDisplay: false },
       { name: 'Buttered Tiger Prawns', description: 'Pan-seared tiger prawns in butter and garlic served with rice (Seasonal)', price: '₱480', featured: true, image: ph3, toDisplay: false },
       { name: 'Brazilian Salmon Stew', description: 'Salmon sautéed in spices and coconut milk, with rice', price: '₱465', featured: false, toDisplay: false },
-      { name: 'Honey Glazed Salmon', description: 'Salmon glazed in orange, herbs, and wild honey, with rice', price: '₱455', featured: true, image: ph2, toDisplay: true },
+      { name: 'Honey Glazed Salmon', description: 'Salmon glazed in orange, herbs, and wild honey, with rice', price: '₱455', featured: true, image: ph2, toDisplay: false },
       { name: 'Salmon Teppanyaki', description: 'Pan-fried pink salmon steak drizzled with unagi sauce served with miso soup and rice', price: '₱485', featured: false, toDisplay: false },
       { name: 'Ebi Tempura', description: 'Deep fried shrimp in tempura batter with tempura sauce (Good for 1-2 persons)', price: '₱395', featured: false, toDisplay: false },
       { name: 'Kani Tempura', description: 'Deep fried crab sticks in tempura batter with tempura sauce (Good for 1-2 persons)', price: '₱285', featured: false, toDisplay: false },
@@ -96,11 +99,11 @@ export const menuItems: MenuSection[] = [
     items: [
       { name: 'Crispy Adobo Flakes', description: 'Deep fried shredded pork adobo with special vinegar and rice', price: '₱285', featured: true, image: ph2, toDisplay: false },
       { name: 'Chicken Pork Adobo', description: 'A classic Filipino dish with chicken, pork, potatoes, and rice', price: '₱285', featured: false, toDisplay: false },
-      { name: 'Bistek Tagalog', description: 'A Filipino Beef dish sauteed in garlic, onions and served with rice', price: '₱310', featured: true, image: ph3, toDisplay: true },
+      { name: 'Bistek Tagalog', description: 'A Filipino Beef dish sauteed in garlic, onions and served with rice', price: '₱310', featured: true, image: bistekTagalog, toDisplay: true },
       { name: 'Pork Steak', description: 'Pan-seared, marinated tender pork served with rice or mashed potato', price: '₱335', featured: false, toDisplay: false },
       { name: 'Lechon Kawali', description: 'Scrumptious deep fried pork belly with rice', price: '₱320', featured: true, image: ph1, toDisplay: false },
       { name: 'Honey Buttered Chicken', description: 'Deep fried chicken with wild honey butter sauce and rice', price: '₱310', featured: false, toDisplay: false },
-      { name: 'Crispy Lemon Orange Chicken', description: 'Savory chicken drizzled with a sweet and citrus sauce, served with rice', price: '₱290', featured: false, toDisplay: false },
+      { name: 'Crispy Lemon Orange Chicken', description: 'Savory chicken drizzled with a sweet and citrus sauce, served with rice', price: '₱290', featured: true, image: lemonOrange, toDisplay: true },
       { name: 'Fried Chicken', description: 'Golden fried crispy chicken paired with savory gravy, served with rice', price: '₱285', featured: false, toDisplay: false },
       { name: 'Creamy Grilled Chicken', description: 'Chicken cooked in white wine, peppers, and cream, served with rice', price: '₱290', featured: false, toDisplay: false },
       { name: 'Beef Patty', description: 'Ground beef patty with spices, gravy, and served with rice', price: '₱235', featured: false, toDisplay: false },
@@ -114,7 +117,7 @@ export const menuItems: MenuSection[] = [
   {
     category: 'For Sharing',
     items: [
-      { name: 'Bulalo', description: 'Beef shank and bone marrow soup with vegetable and sweet corn (Good for 3-4 persons)', price: '₱495', featured: true, image: ph3, toDisplay: true },
+      { name: 'Bulalo', description: 'Beef shank and bone marrow soup with vegetable and sweet corn (Good for 3-4 persons)', price: '₱495', featured: true, image: ph3, toDisplay: false },
       { name: 'Pork Humba', description: 'Spiced braised pork with salted black beans and fried sweet potato (Good for 2-3 persons)', price: '₱430', featured: false, toDisplay: false },
       { name: 'Stir-Fried Vegetables', description: 'Mixed seasonal vegetables with squid and mushroom (Good for 3-4 persons)', price: '₱310', featured: false, toDisplay: false },
       { name: 'Sinigang Na Salmon', description: 'A Filipino tangy stew with salmon head and belly (Good for 3-4 Persons)', price: '₱490', featured: true, image: ph1, toDisplay: false },
@@ -136,7 +139,7 @@ export const menuItems: MenuSection[] = [
   {
     category: 'Desserts',
     items: [
-      { name: "Arca's Docto Pie Ala Mode", description: '', price: '₱135', featured: true, image: ph1, toDisplay: false },
+      { name: "Arca's Docto Pie Ala Mode", description: '', price: '₱135', featured: true, toDisplay: false },
       { name: 'Carrot Pie Ala Mode', description: '', price: '₱135', featured: false, toDisplay: false },
       { name: 'Rhubarb Pie Ala Mode', description: 'Seasonal', price: '₱190', featured: false, toDisplay: false },
       { name: 'Baked Blueberry Cheesecake', description: '', price: '₱170', featured: true, image: ph2, toDisplay: false },

@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 // import brandLogo from '../assets/images/brand-logo.png'
-import brandVertical from '../assets/images/brand-vertical.png'
+import brandVertical from '../assets/images/brand/mwot black.png'
 // import brandVerticalName from '../assets/images/brand-vertical-name.png'
 
 export default function Navbar() {
