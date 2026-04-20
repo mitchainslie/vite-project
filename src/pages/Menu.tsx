@@ -1,23 +1,5 @@
-import { useState, useCallback, useRef } from 'react'
-import img1 from '../assets/images/MAG01755.jpg'
-import img2 from '../assets/images/MAG01756.jpg'
-import img3 from '../assets/images/MAG01822.jpg'
-
-// Placeholder images — replace with actual dish photos
-const ph1 = img1, ph2 = img2, ph3 = img3
-
-interface MenuItem {
-  name: string
-  description: string
-  price: string
-  featured?: boolean
-  image?: string // Required when featured: true
-}
-
-interface MenuSection {
-  category: string
-  items: MenuItem[]
-}
+import { useState, useCallback, useRef, useEffect } from 'react'
+import { menuItems, type MenuItem, type MenuSection } from '../data/menuData'
 
 function SectionCarousel({ items }: { items: MenuItem[] }) {
   const featured = items.filter((item) => item.featured && item.image)
@@ -166,194 +148,100 @@ function SectionCarousel({ items }: { items: MenuItem[] }) {
 
 export default function Menu() {
   const [search, setSearch] = useState('')
+  const [searchOpen, setSearchOpen] = useState(false)
+  const [activeCategory, setActiveCategory] = useState(menuItems[0]?.category ?? '')
+  const sectionRefs = useRef<Record<string, HTMLDivElement | null>>({})
+  const categoryBarRef = useRef<HTMLDivElement>(null)
+  const tabRefs = useRef<Record<string, HTMLButtonElement | null>>({})
+  const isScrollingTo = useRef(false)
+  const searchInputRef = useRef<HTMLInputElement>(null)
+  const sliderRef = useRef<HTMLDivElement>(null)
+  const filteredCatsRef = useRef<string[]>(menuItems.map((s) => s.category))
+  const isDragging = useRef(false)
+  const hasDragged = useRef(false)
+  const dragStartX = useRef(0)
+  const dragScrollLeft = useRef(0)
 
-  const menuItems: MenuSection[] = [
-    {
-      category: 'Soups & Salads',
-      items: [
-        { name: 'Miso Soup', description: 'Japanese soup with soya beans, tofu and wakame', price: '₱110', featured: false },
-        { name: 'Pumpkin Soup', description: 'Classic soup made from creamy fresh pumpkin', price: '₱110', featured: true, image: ph1 },
-        { name: 'Potato Leek Soup', description: 'Vegetable soup made with fresh potatoes and onion leeks', price: '₱110', featured: false },
-        { name: 'Cream of Mushroom Soup', description: 'A classic made with fresh button mushrooms and cream', price: '₱125', featured: true, image: ph2 },
-        { name: 'Oriental Salad', description: "Seasonal fruits on a bed of lettuce with Arca's signature dressing", price: '₱300', featured: false },
-        { name: "Arca's Greek Salad", description: 'A medley of olives, arugula, feta cheese with alfalfa sprouts', price: '₱320', featured: true, image: ph3 },
-      ],
-    },
-    {
-      category: 'Appetizers',
-      items: [
-        { name: 'Calamares', description: 'Breaded fried squid served with homemade dip', price: '₱265', featured: false, image: ph2 },
-        { name: 'Crispy Adobo Flakes', description: 'Deep fried shredded pork adobo', price: '₱250', featured: false, image: ph1 },
-        { name: 'Chicharon Bulaklak', description: 'Crispy pork ruffles seasoned and served golden brown', price: '₱265', featured: false, image: ph3 },
-        { name: 'Spicy Sambal', description: 'Stir-fried squid with spicy sambal sauce', price: '₱265', featured: true, image: ph1 },
-        { name: 'Spicy Fish', description: 'Deep fried fish fillet with sweet and spicy sauce', price: '₱210', featured: true, image: ph1 },
-        { name: 'Cheese Burger', description: '1/3 pounder ground beef with honey mustard sauce and french fries', price: '₱285', featured: true, image: ph1 },
-        { name: 'French Fries', description: 'Deep-fried potato strips', price: '₱180', featured: false, image: ph1 },
-        { name: 'Camote Fries', description: 'Freshly sliced sweet potato fries', price: '₱180', featured: false, image: ph1 },
-      ],
-    },
-    {
-      category: 'All-Day Breakfast',
-      items: [
-        { name: 'Longganisa', description: 'Garlic longganisa served with sunny side up egg and plain or garlic rice', price: '₱250', featured: true, image: ph3 },
-        { name: 'Arroz Ala Cubana', description: 'Spanish-inspired dish made of ground meat, fried sweet plantain, sunny side up egg, and plain or garlic rice', price: '₱315', featured: true, image: ph1 },
-        { name: 'Bacon and Egg', description: 'Crispy bacon strips served with egg and plain or garlic rice', price: '₱250', featured: false },
-        { name: 'Hungarian Sausage', description: 'Pan-grilled sausage served with bacon, egg, and plain or garlic rice', price: '₱320', featured: true, image: ph2 },
-        { name: 'French Toast', description: 'Thick-cut bread dipped in egg custard, pan-fried to golden perfection', price: '₱150', featured: false },
-      ],
-    },
-    {
-      category: 'Pasta',
-      items: [
-        { name: 'Carbonara', description: 'Classic linguine pasta in rich cream sauce with bacon, mushroom and parmesan', price: '₱235', featured: true, image: ph1 },
-        { name: 'Pesto Carbonara', description: 'Linguine pasta Carbonara with bacon, onions, garlic, and basil pesto, served with garlic bread', price: '₱250', featured: false },
-        { name: "Arca's Spicy Tuna", description: "Spaghetti pasta with spicy tuna that's topped with cheddar cheese and served with garlic bread", price: '₱235', featured: true, image: ph2 },
-        { name: 'Basil Pesto Tuna', description: 'Spaghetti pasta with tuna, tomatoes, capers, olives, and basil pesto, served with garlic bread', price: '₱255', featured: false },
-        { name: 'Chicken Alfredo', description: 'Cream based linguine pasta with chicken and broccoli, served with garlic bread', price: '₱250', featured: false },
-        { name: 'Puttanesca', description: 'Italian spaghetti pasta with fresh tomato, capers, and black and green olives, served with garlic bread', price: '₱230', featured: false },
-        { name: 'Seafood Marinara', description: 'Tomato based spaghetti pasta with squid, shrimps, and mussels, served with garlic bread', price: '₱295', featured: true, image: ph3 },
-        { name: 'Filipino Style Spaghetti', description: 'A filipino favorite pasta with ground beef in sweet tomato sauce, served with garlic bread', price: '₱240', featured: false },
-      ],
-    },
-    {
-      category: 'Pizza',
-      items: [
-        { name: 'Pepperoni Pizza', description: 'Cheese pizza with slices of pepperoni sausage', price: '₱315 (10") / ₱525 (12")', featured: true, image: ph2 },
-        { name: '4 Cheese Pizza', description: 'Ricotta, Cheddar, Parmesan and Mozzarella', price: '₱315 (10") / ₱525 (12")', featured: true, image: ph3 },
-        { name: 'Cheesy Hawaiian', description: 'Ricotta, Cheddar, Parmesan, Mozzarella, ham, and pineapple', price: '₱315 (10") / ₱525 (12")', featured: false },
-        { name: 'Classic Hawaiian', description: 'Cheese pizza topped with ham and pineapple', price: '₱315 (10") / ₱525 (12")', featured: false },
-        { name: 'Vegetarian Delight', description: 'Cheese pizza topped with onions, bell peppers, mushrooms, pineapple, and black olives', price: '₱315 (10") / ₱525 (12")', featured: false },
-      ],
-    },
-    {
-      category: 'Seafood',
-      items: [
-        { name: 'Fried Ambuklao Tilapia', description: "Deep-fried St. Peter's fish served with rice", price: '₱220', featured: true, image: ph1 },
-        { name: 'Buttered Tiger Prawns', description: 'Pan-seared tiger prawns in butter and garlic served with rice (Seasonal)', price: '₱480', featured: true, image: ph3 },
-        { name: 'Brazilian Salmon Stew', description: 'Salmon sautéed in spices and coconut milk, with rice', price: '₱465', featured: false },
-        { name: 'Honey Glazed Salmon', description: 'Salmon glazed in orange, herbs, and wild honey, with rice', price: '₱455', featured: true, image: ph2 },
-        { name: 'Salmon Teppanyaki', description: 'Pan-fried pink salmon steak drizzled with unagi sauce served with miso soup and rice', price: '₱485', featured: false },
-        { name: 'Ebi Tempura', description: 'Deep fried shrimp in tempura batter with tempura sauce (Good for 1-2 persons)', price: '₱395', featured: false },
-        { name: 'Kani Tempura', description: 'Deep fried crab sticks in tempura batter with tempura sauce (Good for 1-2 persons)', price: '₱285', featured: false },
-        { name: 'Dinengdeng', description: "An Ilocano stew with vegetables, shrimps, and fish sauce that's topped with fried St. Peter's fish or tilapia (Good for 1-2 persons)", price: '₱310', featured: false },
-        { name: 'Daing na Bangus', description: 'Pan-fried seasoned boneless bangus (Good for 1-2 persons)', price: '₱295', featured: false },
-        { name: "Arca's Bangus Ala Pobre", description: 'Pan-fried boneless Bangus seasoned and glazed in sauce (Good for 1-2 persons)', price: '₱295', featured: false },
-      ],
-    },
-    {
-      category: 'Mains',
-      items: [
-        { name: 'Crispy Adobo Flakes', description: 'Deep fried shredded pork adobo with special vinegar and rice', price: '₱285', featured: true, image: ph2 },
-        { name: 'Chicken Pork Adobo', description: 'A classic Filipino dish with chicken, pork, potatoes, and rice', price: '₱285', featured: false },
-        { name: 'Bistek Tagalog', description: 'A Filipino Beef dish sauteed in garlic, onions and served with rice', price: '₱310', featured: true, image: ph3 },
-        { name: 'Pork Steak', description: 'Pan-seared, marinated tender pork served with rice or mashed potato', price: '₱335', featured: false },
-        { name: 'Lechon Kawali', description: 'Scrumptious deep fried pork belly with rice', price: '₱320', featured: true, image: ph1 },
-        { name: 'Honey Buttered Chicken', description: 'Deep fried chicken with wild honey butter sauce and rice', price: '₱310', featured: false },
-        { name: 'Crispy Lemon Orange Chicken', description: 'Savory chicken drizzled with a sweet and citrus sauce, served with rice', price: '₱290', featured: false },
-        { name: 'Fried Chicken', description: 'Golden fried crispy chicken paired with savory gravy, served with rice', price: '₱285', featured: false },
-        { name: 'Creamy Grilled Chicken', description: 'Chicken cooked in white wine, peppers, and cream, served with rice', price: '₱290', featured: false },
-        { name: 'Beef Patty', description: 'Ground beef patty with spices, gravy, and served with rice', price: '₱235', featured: false },
-        { name: 'Beef Teriyaki', description: 'Sauteed beef glazed in teriyaki sauce and served with rice', price: '₱310', featured: false },
-        { name: 'Texas Pork Ribs', description: 'Pork ribs with homemade Texas sauce and served with rice', price: '₱395', featured: true, image: ph1 },
-        { name: 'Texas Beef Ribs', description: 'Beef ribs with homemade Texas sauce and served with rice', price: '₱415', featured: false },
-        { name: 'Lamb Shoulder', description: 'Pan-seared, spice-marinated lamb with mint jelly and rice or mash potato (Priced per gram, please ask our staff for available cuts)', price: 'Per Gram', featured: false },
-        { name: 'Rib-Eye Steak', description: 'Pan-seared, spice-marinated rib-eye served with rice or mashed potato (Priced per gram, please ask our staff for available cuts)', price: 'Per Gram', featured: false },
-      ],
-    },
-    {
-      category: 'For Sharing',
-      items: [
-        { name: 'Bulalo', description: 'Beef shank and bone marrow soup with vegetable and sweet corn (Good for 3-4 persons)', price: '₱495', featured: true, image: ph3 },
-        { name: 'Pork Humba', description: 'Spiced braised pork with salted black beans and fried sweet potato (Good for 2-3 persons)', price: '₱430', featured: false },
-        { name: 'Stir-Fried Vegetables', description: 'Mixed seasonal vegetables with squid and mushroom (Good for 3-4 persons)', price: '₱310', featured: false },
-        { name: 'Sinigang Na Salmon', description: 'A Filipino tangy stew with salmon head and belly (Good for 3-4 Persons)', price: '₱490', featured: true, image: ph1 },
-        { name: 'Patatim (sliced)', description: 'A Filipino-Chinese braised pork leg dish with steamed bok choy (Good for 2-3 persons)', price: '₱435', featured: false },
-        { name: 'Patatim (whole)', description: 'A Filipino-Chinese braised pork leg dish with steamed bok choy (Good for 5-6 persons)', price: '₱995', featured: false },
-        { name: 'Crispy Pata', description: 'Savory Filipino dish of deep-fried pork knuckles', price: '₱970', featured: true, image: ph2 },
-        { name: 'Pancit Guisado', description: 'With chicken, shrimp, squid balls, vegetables, and mushrooms (Good for 5-6 persons)', price: '₱365', featured: false },
-      ],
-    },
-    {
-      category: 'Rice',
-      items: [
-        { name: 'Mix Chahan', description: 'Flavorful Japanese-style egg fried rice with meat and vegetable', price: '₱255', featured: true, image: ph1 },
-        { name: 'Sambal Fried Rice', description: 'Fried rice with shrimp, squid, fish, egg, and sambal sauce', price: '₱255', featured: true, image: ph2 },
-        { name: 'Garlic Rice', description: 'Fried garlic rice', price: '₱55', featured: false },
-        { name: 'Plain Rice', description: 'Steamed white rice', price: '₱50', featured: false },
-      ],
-    },
-    {
-      category: 'Desserts',
-      items: [
-        { name: "Arca's Docto Pie Ala Mode", description: '', price: '₱135', featured: true, image: ph1 },
-        { name: 'Carrot Pie Ala Mode', description: '', price: '₱135', featured: false },
-        { name: 'Rhubarb Pie Ala Mode', description: 'Seasonal', price: '₱190', featured: false },
-        { name: 'Baked Blueberry Cheesecake', description: '', price: '₱170', featured: true, image: ph2 },
-        { name: 'Yogurt with Wild Honey', description: '', price: '₱145', featured: false },
-        { name: 'Mais Con Yelo', description: '', price: '₱125', featured: false },
-        { name: 'Camote Ice Cream', description: '', price: '₱135', featured: false },
-        { name: 'Banana Split', description: '', price: '₱200', featured: true, image: ph3 },
-        { name: "Potenciana's Dessert", description: '', price: '₱170', featured: false },
-        { name: 'Ginataang Bilo-Bilo', description: '', price: '₱145', featured: false },
-      ],
-    },
-    {
-      category: 'Coffee',
-      items: [
-        { name: 'Benguet Coffee', description: 'Available hot or iced', price: '₱90', featured: true, image: ph3 },
-        { name: 'Espresso (Double)', description: 'Available hot or iced', price: '₱120', featured: false },
-        { name: 'Americano', description: 'Available hot or iced', price: '₱105', featured: false },
-        { name: 'Cappuccino', description: 'Available hot or iced', price: '₱120', featured: true, image: ph1 },
-        { name: 'Latte', description: 'Available hot or iced', price: '₱125', featured: false },
-      ],
-    },
-    {
-      category: 'Non-Coffee & Tea',
-      items: [
-        { name: 'Cacao Hot Chocolate', description: '', price: '₱95', featured: true, image: ph2 },
-        { name: 'Bottled Water', description: '', price: '₱35', featured: false },
-        { name: 'Soda Float', description: '', price: '₱120', featured: false },
-        { name: "Arca's Cloud Tea", description: '', price: '₱85', featured: true, image: ph3 },
-        { name: 'Tarragon', description: '', price: '₱85', featured: false },
-        { name: 'Lemongrass', description: '', price: '₱85', featured: false },
-        { name: 'Lemongrass Teapot', description: '', price: '₱150', featured: false },
-        { name: 'Iced Tea', description: '', price: '₱80', featured: false },
-        { name: 'Iced Tea Pitcher', description: '', price: '₱210', featured: false },
-      ],
-    },
-    {
-      category: 'Smoothies & Milkshakes',
-      items: [
-        { name: 'Strawberry Milkshake', description: '', price: '₱150', featured: true, image: ph1 },
-        { name: 'Chocolate Milkshake', description: '', price: '₱150', featured: false },
-        { name: 'Vanilla Milkshake', description: '', price: '₱150', featured: false },
-        { name: 'Vanilla Oreo Milkshake', description: '', price: '₱155', featured: false },
-        { name: 'Mango Smoothie', description: '', price: '₱145', featured: true, image: ph2 },
-        { name: 'Strawberry Smoothie', description: '', price: '₱145', featured: false },
-        { name: 'Avocado Smoothie', description: 'Seasonal', price: '₱135', featured: false },
-        { name: 'Banana Smoothie', description: '', price: '₱120', featured: false },
-        { name: 'Pineapple Smoothie', description: 'Seasonal', price: '₱120', featured: false },
-        { name: 'Cucumber Smoothie', description: '', price: '₱115', featured: false },
-      ],
-    },
-    {
-      category: 'Soft Drinks',
-      items: [
-        { name: 'Sprite', description: '', price: '₱70', featured: false },
-        { name: 'Royal', description: '', price: '₱70', featured: false },
-        { name: 'Root Beer', description: '', price: '₱70', featured: false },
-        { name: 'Coke (Regular/Zero)', description: '', price: '₱70', featured: false },
-      ],
-    },
-  ]
+  const onMouseDown = useCallback((e: React.MouseEvent) => {
+    const slider = sliderRef.current
+    if (!slider) return
+    isDragging.current = true
+    hasDragged.current = false
+    dragStartX.current = e.pageX - slider.offsetLeft
+    dragScrollLeft.current = slider.scrollLeft
+    slider.style.cursor = 'grabbing'
+  }, [])
+
+  const onMouseMove = useCallback((e: React.MouseEvent) => {
+    if (!isDragging.current) return
+    const slider = sliderRef.current
+    if (!slider) return
+    e.preventDefault()
+    const x = e.pageX - slider.offsetLeft
+    const delta = x - dragStartX.current
+    if (Math.abs(delta) > 3) hasDragged.current = true
+    slider.scrollLeft = dragScrollLeft.current - delta
+  }, [])
+
+  const onMouseUp = useCallback(() => {
+    isDragging.current = false
+    if (sliderRef.current) sliderRef.current.style.cursor = 'grab'
+  }, [])
+
+  const scrollToSection = useCallback((category: string) => {
+    const el = sectionRefs.current[category]
+    if (!el) return
+    isScrollingTo.current = true
+    const top = el.getBoundingClientRect().top + window.scrollY - 80
+    window.scrollTo({ top, behavior: 'smooth' })
+    setActiveCategory(category)
+    setTimeout(() => { isScrollingTo.current = false }, 800)
+  }, [])
+
+  useEffect(() => {
+    const onScroll = () => {
+      if (isScrollingTo.current) return
+      const atBottom = window.innerHeight + window.scrollY >= document.body.scrollHeight - 50
+      if (atBottom) {
+        const cats = filteredCatsRef.current
+        setActiveCategory(cats[cats.length - 1] ?? '')
+        return
+      }
+      let closest: string | null = null
+      let closestDist = Infinity
+      for (const [category, el] of Object.entries(sectionRefs.current)) {
+        if (!el) continue
+        const top = el.getBoundingClientRect().top - 100
+        if (top <= 0 && Math.abs(top) < closestDist) {
+          closestDist = Math.abs(top)
+          closest = category
+        }
+      }
+      if (closest) setActiveCategory(closest)
+    }
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [])
+
+  useEffect(() => {
+    const tab = tabRefs.current[activeCategory]
+    if (tab) {
+      tab.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' })
+    }
+  }, [activeCategory])
+
+  useEffect(() => {
+    if (searchOpen && searchInputRef.current) {
+      searchInputRef.current.focus()
+    }
+    if (!searchOpen) setSearch('')
+  }, [searchOpen])
 
   const query = search.toLowerCase().trim()
   const filteredMenu = query
     ? menuItems
         .map((section) => {
-          // If category matches, show full section
           if (section.category.toLowerCase().includes(query)) return section
-          // Otherwise filter items
           const matched = section.items.filter(
             (item) =>
               item.name.toLowerCase().includes(query) ||
@@ -363,12 +251,13 @@ export default function Menu() {
         })
         .filter(Boolean) as MenuSection[]
     : menuItems
+  filteredCatsRef.current = filteredMenu.map((s) => s.category)
 
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Menu Header */}
-      <section className="pt-20 md:pt-16 bg-wood-500 text-white">
-        <div className="container mx-auto px-4 sm:px-6 md:px-8 py-6 sm:py-8 md:py-12 lg:py-16 text-center">
+      <section className="pt-24 md:pt-16 bg-wood-500 text-white">
+        <div className="container mx-auto px-4 sm:px-6 md:px-8 pt-6 pb-6 sm:pt-8 sm:pb-8 md:pt-12 md:pb-10 lg:pt-16 lg:pb-12 text-center">
           <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-2 sm:mb-3 md:mb-4">
             Arca's Yard Menu
           </h1>
@@ -378,30 +267,79 @@ export default function Menu() {
         </div>
       </section>
 
-      {/* Search */}
-      <div className="sticky top-0 z-40 bg-gray-50/95 backdrop-blur-sm border-b border-gray-200">
-        <div className="container mx-auto px-4 sm:px-6 md:px-8 max-w-5xl py-3">
-          <div className="relative">
-            <svg className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-            </svg>
-            <input
-              type="text"
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-              placeholder="Search menu or category..."
-              className="w-full pl-10 pr-4 py-2.5 text-sm rounded-lg border border-gray-200 bg-white focus:outline-none focus:border-wood-400 focus:ring-1 focus:ring-wood-400 transition"
-            />
-            {search && (
-              <button
-                onClick={() => setSearch('')}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
-              >
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+      {/* Category slider bar + search — fixed bottom */}
+      <div ref={categoryBarRef} className="fixed bottom-0 left-0 right-0 z-40 pb-[env(safe-area-inset-bottom)] bg-gray-50">
+        <div className="container mx-auto px-4 sm:px-6 md:px-8 max-w-5xl">
+          <div
+            className="overflow-hidden transition-all duration-300 ease-in-out"
+            style={{ maxHeight: searchOpen ? 60 : 0, opacity: searchOpen ? 1 : 0 }}
+          >
+            <div className="pt-2.5">
+              <div className="relative">
+                <svg className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                 </svg>
-              </button>
-            )}
+                <input
+                  ref={searchInputRef}
+                  type="text"
+                  value={search}
+                  onChange={(e) => setSearch(e.target.value)}
+                  placeholder="Search menu or category..."
+                  className="w-full pl-10 pr-9 py-2 text-sm rounded-lg border border-gray-200 bg-white focus:outline-none focus:border-wood-400 focus:ring-1 focus:ring-wood-400 transition"
+                />
+                {search && (
+                  <button
+                    onClick={() => setSearch('')}
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                  >
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                  </button>
+                )}
+              </div>
+            </div>
+          </div>
+          <p className="text-[10px] text-gray-400 text-center mb-1 tracking-wide">
+            <span className="inline-block">&larr;</span> swipe to explore <span className="inline-block">&rarr;</span>
+          </p>
+          <div className="flex items-center gap-2 pb-3">
+            <div
+              ref={sliderRef}
+              className="flex-1 overflow-x-auto scrollbar-hide select-none bg-wood-500 rounded-xl"
+              style={{ cursor: 'grab' }}
+              onMouseDown={onMouseDown}
+              onMouseMove={onMouseMove}
+              onMouseUp={onMouseUp}
+              onMouseLeave={onMouseUp}
+            >
+              <div className="flex items-center">
+                {filteredMenu.map((section) => (
+                  <button
+                    key={section.category}
+                    ref={(el) => { tabRefs.current[section.category] = el }}
+                    onClick={() => { if (!hasDragged.current) scrollToSection(section.category) }}
+                    className={`whitespace-nowrap px-4 py-3 font-medium transition-all duration-200 flex-shrink-0 origin-center ${
+                      activeCategory === section.category
+                        ? 'text-white text-sm sm:text-base font-semibold scale-105'
+                        : 'text-white/40 text-xs sm:text-sm scale-100 hover:text-white/70'
+                    }`}
+                  >
+                    {section.category}
+                  </button>
+                ))}
+              </div>
+            </div>
+            <button
+              onClick={() => setSearchOpen((o) => !o)}
+              className={`flex-shrink-0 w-10 self-stretch flex items-center justify-center rounded-xl bg-wood-500 transition-colors ${
+                searchOpen ? 'bg-wood-600 text-white' : 'text-white/60 hover:text-white'
+              }`}
+            >
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+              </svg>
+            </button>
           </div>
         </div>
       </div>
@@ -413,7 +351,12 @@ export default function Menu() {
             <p className="text-center text-gray-400 py-12 text-sm">No results found for "{search}"</p>
           )}
           {filteredMenu.map((section, index) => (
-            <div key={index} className="mb-10 sm:mb-12 md:mb-14 lg:mb-16">
+            <div
+              key={index}
+              ref={(el) => { sectionRefs.current[section.category] = el }}
+              data-category={section.category}
+              className="mb-10 sm:mb-12 md:mb-14 lg:mb-16"
+            >
               {/* Category title */}
               <div className="flex items-center gap-3 mb-5 sm:mb-6">
                 <span className="h-px flex-1 bg-gradient-to-r from-transparent to-wood-300/50" />
@@ -460,7 +403,7 @@ export default function Menu() {
       </section>
 
       {/* Footer */}
-      <footer className="py-4 sm:py-5 md:py-6 bg-wood-950 text-white">
+      <footer className="py-4 sm:py-5 md:py-6 pb-20 bg-wood-950 text-white">
         <div className="container mx-auto px-4 sm:px-6 md:px-8 text-center">
           <p className="text-[10px] sm:text-xs md:text-sm">&copy; 2026 Arca's Yard Cafe. All rights reserved.</p>
         </div>
